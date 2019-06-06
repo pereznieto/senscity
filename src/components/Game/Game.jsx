@@ -38,7 +38,7 @@ class Game extends React.Component {
     const newCity = getRandomCity(newPlayedCities.map(({ id }) => id));
     const gameOver = newPlayedCities.length === 5;
     const distance = getDistanceBetweenClickAndCity(clickedCoordinate, mapSize, currentCity);
-    const newScore = score + distance;  //TODO: Score addition
+    const newScore = score + distance;
 
     this.setState({
       clickedCoordinate,
