@@ -3,28 +3,32 @@ import styles from './Game.module.scss';
 import Map from "../Map/Map";
 import { getRandomCity } from '../../utils/city';
 import { getDistanceBetweenClickAndCity } from '../../utils/distance';
+import Button from "@material-ui/core/Button";
+
+const initialState = {
+  mapSize: {
+    width: 0,
+    height: 0,
+  },
+  clickedCoordinate: {
+    x: null,
+    y: null,
+  },
+  currentCity: null,
+  playedCities: [],
+  gameOver: false,
+  score: 0,
+};
 
 class Game extends React.Component {
   constructor(props) {
     super(props);
     this.updateGameOnMapClick = this.updateGameOnMapClick.bind(this);
     this.updateMapSize = this.updateMapSize.bind(this);
+    this.restartGame = this.restartGame.bind(this);
   }
 
-  state = {
-    mapSize: {
-      width: 0,
-      height: 0,
-    },
-    clickedCoordinate: {
-      x: null,
-      y: null,
-    },
-    currentCity: null,
-    playedCities: [],
-    gameOver: false,
-    score: 0,
-  };
+  state = initialState;
 
   componentWillMount() {
     this.setState({
@@ -53,6 +57,11 @@ class Game extends React.Component {
     this.setState({ mapSize });
   }
 
+  restartGame() {
+    this.setState(initialState)
+    this.componentWillMount()
+  }
+
   render() {
     const { debug } = this.props;
     const { clickedCoordinate, currentCity, gameOver, score } = this.state;
@@ -76,6 +85,7 @@ class Game extends React.Component {
             <p>(x: <strong>{clickedCoordinate.x}</strong>, y: <strong>{clickedCoordinate.y}</strong>)</p>
           </div>
         }
+        <Button href={''} variant="contained" color="primary" onClick={this.restartGame}>Play again</Button>
       </div>
     );
   }
