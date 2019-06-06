@@ -1,12 +1,12 @@
 import React from 'react';
 import styles from './App.module.scss';
+import Map from "../Map/Map";
 
-const App = () => {
-  return (
-    <div className={styles.app}>
-      <h1 className={styles.title}>Senscity</h1>
-    </div>
-  );
-}
+const App = () => (
+  <div className={styles.app}>
+    <h1 className={styles.title}>Senscity</h1>
+    <Map/>
+  </div>
+);
 
 export default App;
