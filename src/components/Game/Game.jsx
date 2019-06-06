@@ -2,6 +2,7 @@ import React from 'react';
 import styles from './Game.module.scss';
 import Map from "../Map/Map";
 import { getRandomCity } from '../../utils/city';
+import { getDistanceBetweenClickAndCity } from '../../utils/distance';
 
 class Game extends React.Component {
   constructor(props) {
@@ -32,17 +33,19 @@ class Game extends React.Component {
   }
 
   updateGameOnMapClick(clickedCoordinate) {
-    const playedCities = [...this.state.playedCities, this.state.currentCity];
-    const newCity = getRandomCity(playedCities.map(({ id }) => id));
-    const gameOver = playedCities.length === 5;
-    const score = this.state.score + 1;  //TODO: Score addition
+    const { playedCities, currentCity, mapSize, score } = this.state;
+    const newPlayedCities = [...playedCities, currentCity];
+    const newCity = getRandomCity(newPlayedCities.map(({ id }) => id));
+    const gameOver = newPlayedCities.length === 5;
+    const distance = getDistanceBetweenClickAndCity(clickedCoordinate, mapSize, currentCity);
+    const newScore = score + distance;  //TODO: Score addition
 
     this.setState({
       clickedCoordinate,
-      playedCities,
+      playedCities: newPlayedCities,
       currentCity: newCity,
       gameOver,
-      score
+      score: newScore,
     });
   }
 
@@ -63,16 +66,13 @@ class Game extends React.Component {
         {currentCity &&
           <div>Find: <strong>{currentCity.name}</strong></div>
         }
+        <div>
+          <p>Score: <strong>{score}</strong></p>
+        </div>
         {clickedCoordinate.x !== null &&
           <div className={styles.clickedCoordinates}>
             <p><strong>You clicked on:</strong></p>
             <p>(x: <strong>{clickedCoordinate.x}</strong>, y: <strong>{clickedCoordinate.y}</strong>)</p>
-          </div>
-        }
-        {
-          score &&
-          <div>
-            <p>Score: <strong>{score}</strong></p>
           </div>
         }
       </div>
