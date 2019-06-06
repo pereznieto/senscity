@@ -54,6 +54,7 @@ class Game extends React.Component {
   }
 
   render() {
+    const { debug } = this.props;
     const { clickedCoordinate, currentCity, gameOver, score } = this.state;
 
     return (
@@ -69,7 +70,7 @@ class Game extends React.Component {
         <div>
           <p>Score: <strong>{score}</strong></p>
         </div>
-        {clickedCoordinate.x !== null &&
+        {debug && clickedCoordinate.x !== null &&
           <div className={styles.clickedCoordinates}>
             <p><strong>You clicked on:</strong></p>
             <p>(x: <strong>{clickedCoordinate.x}</strong>, y: <strong>{clickedCoordinate.y}</strong>)</p>

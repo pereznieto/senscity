@@ -4,7 +4,7 @@ import Game from "../Game/Game";
 
 const App = () => (
   <div className={styles.app}>
-    <Game />
+    <Game debug={true}/>
   </div>
 );
 
