@@ -34,12 +34,15 @@ class Map extends React.Component {
     }
 
     render() {
+        const { gameOver } = this.props;
         return (
             <div
                 ref={this.mapDiv}
-                onClick={this.getMouseCoordinates}
+                onClick={!gameOver && this.getMouseCoordinates}
                 className={styles.map}
-            />
+            >
+                {gameOver && <div className={styles.gameOver}>Game over</div>}
+            </div>
         );
     }
 }
