@@ -6,7 +6,7 @@ import { getRandomCity } from '../../utils/city';
 class Game extends React.Component {
   constructor(props) {
     super(props);
-    this.updateClickCoordinates = this.updateClickCoordinates.bind(this);
+    this.updateGameOnMapClick = this.updateGameOnMapClick.bind(this);
     this.updateMapSize = this.updateMapSize.bind(this);
   }
 
@@ -31,7 +31,7 @@ class Game extends React.Component {
     });
   }
 
-  updateClickCoordinates(clickedCoordinate) {
+  updateGameOnMapClick(clickedCoordinate) {
     const playedCities = [...this.state.playedCities, this.state.currentCity];
     const newCity = getRandomCity(playedCities.map(({ id }) => id));
     const gameOver = playedCities.length === 5;
@@ -58,7 +58,7 @@ class Game extends React.Component {
         <Map
           gameOver={gameOver}
           updateMapSize={this.updateMapSize}
-          updateClickCoordinates={this.updateClickCoordinates}
+          updateClickCoordinates={this.updateGameOnMapClick}
         />
         {currentCity &&
           <div>Find: <strong>{currentCity.name}</strong></div>
@@ -71,9 +71,9 @@ class Game extends React.Component {
         }
         {
           score &&
-            <div>
-              <p>Score: <strong>{score}</strong></p>
-            </div>
+          <div>
+            <p>Score: <strong>{score}</strong></p>
+          </div>
         }
       </div>
     );
