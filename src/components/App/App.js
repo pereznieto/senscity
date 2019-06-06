@@ -1,11 +1,10 @@
 import React from 'react';
 import styles from './App.module.scss';
-import Map from "../Map/Map";
+import Game from "../Game/Game";
 
 const App = () => (
   <div className={styles.app}>
-    <h1 className={styles.title}>Senscity</h1>
-    <Map/>
+    <Game />
   </div>
 );
 
