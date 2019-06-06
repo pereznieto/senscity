@@ -22,7 +22,8 @@ class Game extends React.Component {
     currentCity: null,
     playedCities: [],
     gameOver: false,
-  }
+    score: 0,
+  };
 
   componentWillMount() {
     this.setState({
@@ -34,12 +35,14 @@ class Game extends React.Component {
     const playedCities = [...this.state.playedCities, this.state.currentCity];
     const newCity = getRandomCity(playedCities.map(({ id }) => id));
     const gameOver = playedCities.length === 5;
+    const score = this.state.score + 1;  //TODO: Score addition
 
     this.setState({
       clickedCoordinate,
       playedCities,
       currentCity: newCity,
       gameOver,
+      score
     });
   }
 
@@ -48,7 +51,7 @@ class Game extends React.Component {
   }
 
   render() {
-    const { clickedCoordinate, currentCity, gameOver } = this.state;
+    const { clickedCoordinate, currentCity, gameOver, score } = this.state;
 
     return (
       <div>
@@ -65,6 +68,12 @@ class Game extends React.Component {
             <p><strong>You clicked on:</strong></p>
             <p>(x: <strong>{clickedCoordinate.x}</strong>, y: <strong>{clickedCoordinate.y}</strong>)</p>
           </div>
+        }
+        {
+          score &&
+            <div>
+              <p>Score: <strong>{score}</strong></p>
+            </div>
         }
       </div>
     );
