@@ -6,23 +6,35 @@ class Game extends React.Component {
   constructor(props) {
     super(props);
     this.updateClickCoordinates = this.updateClickCoordinates.bind(this);
+    this.updateMapSize = this.updateMapSize.bind(this);
   }
 
   state = {
+    mapSize: {
+      width: 0,
+      height: 0,
+    },
     clickedCoordinate: {
       x: null,
       y: null,
-    }
+    },
   }
 
   updateClickCoordinates(clickedCoordinate) {
     this.setState({ clickedCoordinate });
   }
 
+  updateMapSize(mapSize) {
+    this.setState({ mapSize });
+  }
+
   render() {
     return (
       <div>
-        <Map updateClickCoordinates={this.updateClickCoordinates} />
+        <Map
+          updateMapSize={this.updateMapSize}
+          updateClickCoordinates={this.updateClickCoordinates}
+        />
         {this.state.clickedCoordinate.x !== null &&
           <div className={styles.clickedCoordinates}>
             <p><strong>You clicked on:</strong></p>

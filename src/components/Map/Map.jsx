@@ -20,6 +20,7 @@ class Map extends React.Component {
         const height = this.mapDiv.current.offsetHeight;
         const { top, left } = this.mapDiv.current.getBoundingClientRect();
 
+        this.props.updateMapSize({ width, height });
         this.setState({ width, height, top: top.toFixed(0), left: left.toFixed(0) });
     }
 
