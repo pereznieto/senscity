@@ -60,7 +60,7 @@ class Game extends React.Component {
     const distance = clickedCoordinate ?
       getDistanceBetweenClickAndCity(clickedCoordinate, mapSize, currentCity) :
       null;
-    const newScore = distance ? score + calculatePrevScore(distance, timeLeft) : 0;
+    const newScore = distance ? score + calculatePrevScore(distance, timeLeft) : score;
     const clicked = clickedCoordinate ? {
       x: clickedCoordinate.x,
       y: clickedCoordinate.y,
