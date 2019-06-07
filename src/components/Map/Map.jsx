@@ -44,8 +44,14 @@ class Map extends React.Component {
       >
         {pause &&
           <div className={styles.pause}>
-            <div className={styles.realCoordinates} />
-            <div className={styles.clickedCoordinates} />
+            <div
+              className={styles.realCoordinates}
+              style={{ top: `${pause.real.y}px`, left: `${pause.real.x}px` }}
+            />
+            <div
+              className={styles.clickedCoordinates}
+              style={{ top: `${pause.clicked.y}px`, left: `${pause.clicked.x}px` }}
+            />
           </div>
         }
         {gameOver &&

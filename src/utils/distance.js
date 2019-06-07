@@ -1,14 +1,24 @@
-export const getDistanceBetweenClickAndCity = (click, mapSize, city) => {
-  const { latitude, longitude } = city;
-  const { width, height } = mapSize;
-  const { x, y } = click;
-  const mapEquator = height * (9 / 15);
-  const mapGreenwich = width / 2;
-  const xLongitude = ((x - mapGreenwich) * 180) / mapGreenwich;
-  const yLatitude = ((mapEquator - y) * 90) / mapEquator;
-  const distance = getDistanceBetweenTwoCoordinates(latitude, longitude, yLatitude, xLongitude);
+export const getDistanceBetweenClickAndCity = ({ x, y }, { width, height }, { latitude, longitude }) =>
+  getDistanceBetweenTwoCoordinates(latitude, longitude, yToLatitude(height, y), xToLongitude(width, x));
 
-  return distance;
+const xToLongitude = (width, x) => {
+  const mapGreenwich = width / 2;
+  return ((x - mapGreenwich) * 180) / mapGreenwich
+};
+
+const yToLatitude = (height, y) => {
+  const mapEquator = height * (9 / 15);
+  return ((mapEquator - y) * 90) / mapEquator
+};
+
+export const longitudeToX = (width, longitude) => {
+  const mapGreenwich = width / 2;
+  return parseInt(((longitude * mapGreenwich) / 180) + mapGreenwich)
+};
+
+export const latitudeToY = (height, latitude) => {
+  const mapEquator = height * (9 / 15);
+  return parseInt(mapEquator - ((latitude * mapEquator) / 90));
 };
 
 const getDistanceBetweenTwoCoordinates = (lat1, lon1, lat2, lon2) => {

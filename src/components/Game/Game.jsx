@@ -2,7 +2,7 @@ import React from 'react';
 import styles from './Game.module.scss';
 import Map from "../Map/Map";
 import { getRandomCity } from '../../utils/city';
-import { getDistanceBetweenClickAndCity } from '../../utils/distance';
+import { getDistanceBetweenClickAndCity, latitudeToY, longitudeToX } from '../../utils/distance';
 import Button from "@material-ui/core/Button";
 import cx from 'classnames';
 
@@ -60,8 +60,8 @@ class Game extends React.Component {
       pause: {
         distance,
         real: {
-          latitude: currentCity.latitude,
-          longitude: currentCity.longitude,
+          x: longitudeToX(mapSize.width, currentCity.longitude),
+          y: latitudeToY(mapSize.height, currentCity.latitude),
         },
         clicked: {
           x: clickedCoordinate.x,

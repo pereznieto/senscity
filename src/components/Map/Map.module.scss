@@ -34,7 +34,7 @@
   text-transform: uppercase;
   letter-spacing: 15px;
   font-size: 55px;
-  background-color: rgba(250, 250, 250, .75);
+  background-color: rgba(250, 250, 250, .7);
 }
 
 .realCoordinates,
@@ -42,14 +42,14 @@
   position: absolute;
   top: 350px;
   left: 500px;
-  width: 5px;
-  height: 5px;
+  width: 7px;
+  height: 7px;
   border-radius: 50%;
-  background-color: rgba(green, .75);
+  background-color: rgba(red, .75);
 }
 
 .realCoordinates {
-  background-color: rgba(red, .75);
+  background-color: rgba(green, .75);
   top: 352px;
   left: 505px;
 }
