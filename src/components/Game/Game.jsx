@@ -16,6 +16,8 @@ const initialState = {
   score: 0,
 };
 
+const citiesPerGame = 5;
+
 class Game extends React.Component {
   constructor(props) {
     super(props);
@@ -40,7 +42,7 @@ class Game extends React.Component {
     const { playedCities, currentCity, mapSize, score } = this.state;
     const newPlayedCities = [...playedCities, currentCity];
     const newCity = getRandomCity(newPlayedCities.map(({ id }) => id));
-    const gameOver = newPlayedCities.length === 5;
+    const gameOver = newPlayedCities.length === citiesPerGame;
     const distance = getDistanceBetweenClickAndCity(clickedCoordinate, mapSize, currentCity);
     const newScore = score + (12742 - distance);
 
@@ -79,7 +81,7 @@ class Game extends React.Component {
           }
           <div>
             <p>Score: <strong>{score.toFixed(0)}</strong></p>
-            {distance && <p>Distance: <strong>{distance.toFixed(3)}</strong></p>}
+            {distance && <p>You were off by: <strong>{distance.toFixed(1)} km</strong></p>}
           </div>
         </div>
       </div>
