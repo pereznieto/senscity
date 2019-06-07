@@ -73,7 +73,7 @@ class Game extends React.Component {
       currentCity: newCity,
       gameOver,
       distance,
-      score: newScore,
+      score: this.state.score + newScore,
       pause: {
         city: currentCity.name,
         real: {
