@@ -5,6 +5,7 @@ import { getRandomCity } from '../../utils/city';
 import { getDistanceBetweenClickAndCity, latitudeToY, longitudeToX } from '../../utils/distance';
 import Button from "@material-ui/core/Button";
 import cx from 'classnames';
+import {calculatePrevScore} from "../../utils/score";
 
 const initialState = {
   clickedCoordinate: {
@@ -50,7 +51,8 @@ class Game extends React.Component {
     const newCity = getRandomCity(newPlayedCities.map(({ id }) => id));
     const gameOver = newPlayedCities.length === citiesPerGame;
     const distance = getDistanceBetweenClickAndCity(clickedCoordinate, mapSize, currentCity);
-    const newScore = score + (12742 - distance);
+    console.log(distance)
+    const newScore = score + calculatePrevScore(distance);
 
     this.setState({
       clickedCoordinate,
