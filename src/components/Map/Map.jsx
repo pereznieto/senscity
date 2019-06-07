@@ -61,10 +61,12 @@ class Map extends React.Component {
               className={styles.realCoordinates}
               style={{ top: `${pause.real.y}px`, left: `${pause.real.x}px` }}
             />
-            <div
-              className={styles.clickedCoordinates}
-              style={{ top: `${pause.clicked.y}px`, left: `${pause.clicked.x}px` }}
-            />
+            {pause.clicked &&
+              <div
+                className={styles.clickedCoordinates}
+                style={{ top: `${pause.clicked.y}px`, left: `${pause.clicked.x}px` }}
+              />
+            }
           </div>
         }
         {gameOver &&
