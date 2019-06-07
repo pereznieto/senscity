@@ -86,6 +86,7 @@ class Game extends React.Component {
 
   render() {
     const { currentCity, gameOver, score, pause, distance } = this.state;
+    const percentageScore = ((score * 100) / (12742 * citiesPerGame)).toFixed(2);
 
     return (
       <div>
@@ -98,7 +99,9 @@ class Game extends React.Component {
         />
         <div className={styles.gameMenu}>
           <div className={cx(styles.score, { [styles.bigScore]: gameOver })}>
-            <p>{gameOver ? 'Final score:' : 'Score:'} <strong>{score.toFixed(0)}</strong></p>
+            <p>
+              {gameOver ? 'Final score:' : 'Score:'} <strong>{score.toFixed(0)}{gameOver ? ` (${percentageScore}%)` : ''}</strong>
+            </p>
           </div>
           {!pause && currentCity &&
             <div><p>Find: <strong>{currentCity.name}</strong></p></div>
