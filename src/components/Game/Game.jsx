@@ -58,6 +58,7 @@ class Game extends React.Component {
       distance,
       score: newScore,
       pause: {
+        city: currentCity.name,
         distance,
         real: {
           x: longitudeToX(mapSize.width, currentCity.longitude),
@@ -105,8 +106,9 @@ class Game extends React.Component {
           {pause &&
             <div>
               <div className={styles.distance}>
-                <p>You were off by:</p>
-                <p><strong>{distance.toFixed(2)} km</strong></p>
+                <p>
+                  You missed <strong>{pause.city}</strong> by <strong>{distance.toFixed(2)} km</strong>
+                </p>
               </div>
               {!gameOver &&
                 <Button
