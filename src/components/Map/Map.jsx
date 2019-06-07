@@ -39,7 +39,7 @@ class Map extends React.Component {
     return (
       <div
         ref={this.mapDiv}
-        onClick={(!gameOver && !pause) ? this.getMouseCoordinates : undefined}
+        onClick={(!gameOver && !pause && !splashScreen) ? this.getMouseCoordinates : undefined}
         className={styles.map}
       >
         {splashScreen &&

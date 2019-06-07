@@ -40,12 +40,8 @@ class Game extends React.Component {
     splashScreen: true,
   };
 
-  componentWillMount() {
-    this.setState({ currentCity: getRandomCity([]) });
-  }
-
   startGame() {
-    this.setState({ splashScreen: false });
+    this.setState({ splashScreen: false, currentCity: getRandomCity([]) });
   }
 
   updateGameOnMapClick(clickedCoordinate) {
