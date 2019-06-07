@@ -37,6 +37,23 @@
   background-color: rgba(250, 250, 250, .75);
 }
 
+.realCoordinates,
+.clickedCoordinates {
+  position: absolute;
+  top: 350px;
+  left: 500px;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background-color: rgba(green, .75);
+}
+
+.realCoordinates {
+  background-color: rgba(red, .75);
+  top: 352px;
+  left: 505px;
+}
+
 .gameOverText {
   margin-bottom: 30px;
 }

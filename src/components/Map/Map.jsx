@@ -42,7 +42,12 @@ class Map extends React.Component {
         onClick={(!gameOver && !pause) ? this.getMouseCoordinates : undefined}
         className={styles.map}
       >
-        {pause && <div className={styles.pause}></div>}
+        {pause &&
+          <div className={styles.pause}>
+            <div className={styles.realCoordinates} />
+            <div className={styles.clickedCoordinates} />
+          </div>
+        }
         {gameOver &&
           <div className={styles.gameOver}>
             <div className={styles.gameOverText}>Game over</div>
