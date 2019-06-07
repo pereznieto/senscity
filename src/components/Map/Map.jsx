@@ -38,7 +38,7 @@ class Map extends React.Component {
         return (
             <div
                 ref={this.mapDiv}
-                onClick={!gameOver && this.getMouseCoordinates}
+                onClick={!gameOver ? this.getMouseCoordinates : undefined}
                 className={styles.map}
             >
                 {gameOver && <div className={styles.gameOver}>Game over</div>}
