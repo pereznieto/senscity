@@ -6,3 +6,20 @@
     margin: 5px 0;
   }
 }
+
+.score {
+  display: inline-block;
+  min-width: 181px;
+  margin-bottom: 20px;
+  padding: 10px 20px;
+  border-radius: 3px;
+  background-color: orange;
+}
+
+.bigScore {
+  font-size: 50px;
+}
+
+.distance {
+  margin-bottom: 20px;
+}

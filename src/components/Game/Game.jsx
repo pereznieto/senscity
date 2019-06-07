@@ -3,6 +3,8 @@ import styles from './Game.module.scss';
 import Map from "../Map/Map";
 import { getRandomCity } from '../../utils/city';
 import { getDistanceBetweenClickAndCity } from '../../utils/distance';
+import Button from "@material-ui/core/Button";
+import cx from 'classnames';
 
 const initialState = {
   clickedCoordinate: {
@@ -14,6 +16,7 @@ const initialState = {
   gameOver: false,
   distance: null,
   score: 0,
+  pause: null,
 };
 
 const citiesPerGame = 5;
@@ -24,6 +27,7 @@ class Game extends React.Component {
     this.updateGameOnMapClick = this.updateGameOnMapClick.bind(this);
     this.updateMapSize = this.updateMapSize.bind(this);
     this.restartGame = this.restartGame.bind(this);
+    this.nextCity = this.nextCity.bind(this);
   }
 
   state = {
@@ -53,7 +57,22 @@ class Game extends React.Component {
       gameOver,
       distance,
       score: newScore,
+      pause: {
+        distance,
+        real: {
+          latitude: currentCity.latitude,
+          longitude: currentCity.longitude,
+        },
+        clicked: {
+          x: clickedCoordinate.x,
+          y: clickedCoordinate.y,
+        },
+      },
     });
+  }
+
+  nextCity() {
+    this.setState({ pause: null });
   }
 
   updateMapSize(mapSize) {
@@ -65,26 +84,44 @@ class Game extends React.Component {
   }
 
   render() {
-    const { currentCity, gameOver, score, distance } = this.state;
+    const { currentCity, gameOver, score, pause, distance } = this.state;
 
     return (
       <div>
         <Map
+          pause={pause}
           gameOver={gameOver}
           playAgain={this.restartGame}
           updateMapSize={this.updateMapSize}
           updateClickCoordinates={this.updateGameOnMapClick}
         />
         <div className={styles.gameMenu}>
-          {currentCity &&
+          <div className={cx(styles.score, { [styles.bigScore]: gameOver })}>
+            <p>{gameOver ? 'Final score:' : 'Score:'} <strong>{score.toFixed(0)}</strong></p>
+          </div>
+          {!pause && currentCity &&
             <div><p>Find: <strong>{currentCity.name}</strong></p></div>
           }
-          <div>
-            <p>Score: <strong>{score.toFixed(0)}</strong></p>
-            {distance && <p>You were off by: <strong>{distance.toFixed(1)} km</strong></p>}
-          </div>
+          {pause &&
+            <div>
+              <div className={styles.distance}>
+                <p>You were off by:</p>
+                <p><strong>{distance.toFixed(2)} km</strong></p>
+              </div>
+              {!gameOver &&
+                <Button
+                  variant="contained"
+                  color="primary"
+                  size="large"
+                  onClick={this.nextCity}
+                >
+                  Next city
+                </Button>
+              }
+            </div>
+          }
         </div>
-      </div>
+      </div >
     );
   }
 }
