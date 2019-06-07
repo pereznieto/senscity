@@ -19,7 +19,7 @@ const initialState = {
   pause: null,
 };
 
-const citiesPerGame = 5;
+const citiesPerGame = 10;
 
 class Game extends React.Component {
   constructor(props) {
