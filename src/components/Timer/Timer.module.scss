@@ -1,3 +1,14 @@
 .timer {
+  position: relative;
   margin-bottom: 20px;
+  height: 5px;
+  background-color: lightcyan; 
+}
+
+.time {
+  position: absolute;
+  left: 0;
+  height: 5px;
+  background-color: orange;
+  width: 100%;
 }

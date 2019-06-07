@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './Timer.module.scss';
 
-const millisecondsPerTurn = 10000;
+export const millisecondsPerTurn = 5000;
 
 class Timer extends React.Component {
 
@@ -50,7 +50,7 @@ class Timer extends React.Component {
   render() {
     return (
       <div className={styles.timer}>
-        <div className={styles.time}>{this.state.timeLeft}</div>
+        <div className={styles.time} style={{ width: `${(millisecondsPerTurn - this.state.timeLeft) * 100 / millisecondsPerTurn}%` }} />
       </div>
     );
   }

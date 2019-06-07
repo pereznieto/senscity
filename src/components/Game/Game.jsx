@@ -60,7 +60,7 @@ class Game extends React.Component {
     const distance = clickedCoordinate ?
       getDistanceBetweenClickAndCity(clickedCoordinate, mapSize, currentCity) :
       null;
-    const newScore = distance ? score + timeLeft + calculatePrevScore(distance) : 0;
+    const newScore = distance ? score + calculatePrevScore(distance, timeLeft) : 0;
     const clicked = clickedCoordinate ? {
       x: clickedCoordinate.x,
       y: clickedCoordinate.y,
@@ -99,7 +99,6 @@ class Game extends React.Component {
 
   render() {
     const { splashScreen, currentCity, gameOver, score, pause, distance, isRunning } = this.state;
-    const percentageScore = ((score * 100) / (12742 * citiesPerGame)).toFixed(2);
     const displayDistance = distance ? <span>by<strong> {distance.toFixed(2)} km</strong></span> : 'completely!';
 
     return (
@@ -126,7 +125,7 @@ class Game extends React.Component {
               {!splashScreen &&
                 <div className={cx(styles.score, { [styles.bigScore]: gameOver })}>
                   <p>
-                    {gameOver ? 'Final score:' : 'Score:'} <strong>{score.toFixed(0)}{gameOver ? ` (${percentageScore}%)` : ''}</strong>
+                    {gameOver ? 'Final score:' : 'Score:'} <strong>{score.toFixed(0)}</strong>
                   </p>
                 </div>
               }
