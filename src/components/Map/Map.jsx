@@ -35,13 +35,26 @@ class Map extends React.Component {
   }
 
   render() {
-    const { pause, gameOver, playAgain } = this.props;
+    const { splashScreen, startGame, pause, gameOver, playAgain } = this.props;
     return (
       <div
         ref={this.mapDiv}
         onClick={(!gameOver && !pause) ? this.getMouseCoordinates : undefined}
         className={styles.map}
       >
+        {splashScreen &&
+          <div className={styles.splash}>
+            <div className={styles.splashText}>Senscity</div>
+            <Button
+              variant="contained"
+              color="primary"
+              size="large"
+              onClick={startGame}
+            >
+              Start game
+          </Button>
+          </div>
+        }
         {pause &&
           <div className={styles.pause}>
             <div

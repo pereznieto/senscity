@@ -11,6 +11,7 @@
   z-index: 1;
 }
 
+.splash,
 .gameOver,
 .pause {
   position: absolute;
@@ -30,11 +31,16 @@
   background-color: rgba(250, 250, 250, .5);
 }
 
+.splash,
 .gameOver {
   text-transform: uppercase;
   letter-spacing: 15px;
   font-size: 55px;
   background-color: rgba(250, 250, 250, .7);
+}
+
+.splash {
+  font-size: 70px;
 }
 
 .realCoordinates,
@@ -56,4 +62,8 @@
 
 .gameOverText {
   margin-bottom: 30px;
+}
+
+.splashText {
+  margin-bottom: 50px;
 }

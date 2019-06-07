@@ -24,6 +24,7 @@ const citiesPerGame = 10;
 class Game extends React.Component {
   constructor(props) {
     super(props);
+    this.startGame = this.startGame.bind(this);
     this.updateGameOnMapClick = this.updateGameOnMapClick.bind(this);
     this.updateMapSize = this.updateMapSize.bind(this);
     this.restartGame = this.restartGame.bind(this);
@@ -36,10 +37,15 @@ class Game extends React.Component {
       width: 0,
       height: 0,
     },
+    splashScreen: true,
   };
 
   componentWillMount() {
     this.setState({ currentCity: getRandomCity([]) });
+  }
+
+  startGame() {
+    this.setState({ splashScreen: false });
   }
 
   updateGameOnMapClick(clickedCoordinate) {
@@ -85,12 +91,14 @@ class Game extends React.Component {
   }
 
   render() {
-    const { currentCity, gameOver, score, pause, distance } = this.state;
+    const { splashScreen, currentCity, gameOver, score, pause, distance } = this.state;
     const percentageScore = ((score * 100) / (12742 * citiesPerGame)).toFixed(2);
 
     return (
       <div>
         <Map
+          startGame={this.startGame}
+          splashScreen={splashScreen}
           pause={pause}
           gameOver={gameOver}
           playAgain={this.restartGame}
@@ -98,12 +106,14 @@ class Game extends React.Component {
           updateClickCoordinates={this.updateGameOnMapClick}
         />
         <div className={styles.gameMenu}>
-          <div className={cx(styles.score, { [styles.bigScore]: gameOver })}>
-            <p>
-              {gameOver ? 'Final score:' : 'Score:'} <strong>{score.toFixed(0)}{gameOver ? ` (${percentageScore}%)` : ''}</strong>
-            </p>
-          </div>
-          {!pause && currentCity &&
+          {!splashScreen &&
+            <div className={cx(styles.score, { [styles.bigScore]: gameOver })}>
+              <p>
+                {gameOver ? 'Final score:' : 'Score:'} <strong>{score.toFixed(0)}{gameOver ? ` (${percentageScore}%)` : ''}</strong>
+              </p>
+            </div>
+          }
+          {!splashScreen && !pause && currentCity &&
             <div><p>Find: <strong>{currentCity.name}</strong></p></div>
           }
           {pause &&
