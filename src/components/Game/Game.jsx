@@ -1,11 +1,12 @@
 import React from 'react';
 import styles from './Game.module.scss';
 import Map from "../Map/Map";
-import { getRandomCity } from '../../utils/city';
-import { getDistanceBetweenClickAndCity, latitudeToY, longitudeToX } from '../../utils/distance';
+import {getRandomCity} from '../../utils/city';
+import {getDistanceBetweenClickAndCity, latitudeToY, longitudeToX} from '../../utils/distance';
 import Button from "@material-ui/core/Button";
 import cx from 'classnames';
 import {calculatePrevScore} from "../../utils/score";
+import Grid from "@material-ui/core/Grid";
 
 const initialState = {
   clickedCoordinate: {
@@ -42,16 +43,16 @@ class Game extends React.Component {
   };
 
   startGame() {
-    this.setState({ splashScreen: false, currentCity: getRandomCity([]) });
+    this.setState({splashScreen: false, currentCity: getRandomCity([])});
   }
 
   updateGameOnMapClick(clickedCoordinate) {
-    const { playedCities, currentCity, mapSize, score } = this.state;
+    const {playedCities, currentCity, mapSize, score} = this.state;
     const newPlayedCities = [...playedCities, currentCity];
-    const newCity = getRandomCity(newPlayedCities.map(({ id }) => id));
+    const newCity = getRandomCity(newPlayedCities.map(({id}) => id));
     const gameOver = newPlayedCities.length === citiesPerGame;
     const distance = getDistanceBetweenClickAndCity(clickedCoordinate, mapSize, currentCity);
-    console.log(distance)
+    console.log(distance);
     const newScore = score + calculatePrevScore(distance);
 
     this.setState({
@@ -77,19 +78,19 @@ class Game extends React.Component {
   }
 
   nextCity() {
-    this.setState({ pause: null });
+    this.setState({pause: null});
   }
 
   updateMapSize(mapSize) {
-    this.setState({ mapSize });
+    this.setState({mapSize});
   }
 
   restartGame() {
-    this.setState({ ...initialState, currentCity: getRandomCity([]) });
+    this.setState({...initialState, currentCity: getRandomCity([])});
   }
 
   render() {
-    const { splashScreen, currentCity, gameOver, score, pause, distance } = this.state;
+    const {splashScreen, currentCity, gameOver, score, pause, distance} = this.state;
     const percentageScore = ((score * 100) / (12742 * citiesPerGame)).toFixed(2);
 
     return (
@@ -104,37 +105,53 @@ class Game extends React.Component {
           updateClickCoordinates={this.updateGameOnMapClick}
         />
         <div className={styles.gameMenu}>
-          {!splashScreen &&
-            <div className={cx(styles.score, { [styles.bigScore]: gameOver })}>
-              <p>
-                {gameOver ? 'Final score:' : 'Score:'} <strong>{score.toFixed(0)}{gameOver ? ` (${percentageScore}%)` : ''}</strong>
-              </p>
-            </div>
-          }
-          {!splashScreen && !pause && currentCity &&
-            <div><p>Find: <strong>{currentCity.name}</strong></p></div>
-          }
-          {pause &&
-            <div>
-              <div className={styles.distance}>
-                <p>
-                  You missed <strong>{pause.city}</strong> by <strong>{distance.toFixed(2)} km</strong>
-                </p>
-              </div>
-              {!gameOver &&
-                <Button
-                  variant="contained"
-                  color="primary"
-                  size="large"
-                  onClick={this.nextCity}
-                >
-                  Next city
-                </Button>
-              }
-            </div>
-          }
+          <div>
+            <Grid container spacing={2}>
+
+              <Grid item xs={3}>
+                {!splashScreen &&
+                <div className={cx(styles.score, {[styles.bigScore]: gameOver})}>
+                  <p>
+                    {gameOver ? 'Final score:' : 'Score:'}
+                    <strong>{score.toFixed(0)}{gameOver ? ` (${percentageScore}%)` : ''}</strong>
+                  </p>
+                </div>
+                }
+              </Grid>
+              <Grid item xs={2}>
+                {!splashScreen && !pause && currentCity &&
+                <div><p>Find: <strong>{currentCity.name}</strong></p></div>
+                }
+              </Grid>
+
+              {pause && (
+                <React.Fragment>
+                  <Grid item xs={4}>
+                    <div className={styles.distance}>
+                      <p>
+                        You missed <strong>{pause.city}</strong> by <strong>{distance.toFixed(2)} km</strong>
+                      </p>
+                    </div>
+                  </Grid>
+                  <Grid item xs={3}>
+                    {!gameOver &&
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      size="large"
+                      onClick={this.nextCity}
+                    >
+                      Next city
+                    </Button>
+                    }
+                  </Grid>
+                </React.Fragment>
+              )}
+            </Grid>
+          </div>
+
         </div>
-      </div >
+      </div>
     );
   }
 }
