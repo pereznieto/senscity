@@ -3,13 +3,8 @@ import styles from './Game.module.scss';
 import Map from "../Map/Map";
 import { getRandomCity } from '../../utils/city';
 import { getDistanceBetweenClickAndCity } from '../../utils/distance';
-import Button from "@material-ui/core/Button";
 
 const initialState = {
-  mapSize: {
-    width: 0,
-    height: 0,
-  },
   clickedCoordinate: {
     x: null,
     y: null,
@@ -17,6 +12,7 @@ const initialState = {
   currentCity: null,
   playedCities: [],
   gameOver: false,
+  distance: null,
   score: 0,
 };
 
@@ -28,12 +24,16 @@ class Game extends React.Component {
     this.restartGame = this.restartGame.bind(this);
   }
 
-  state = initialState;
+  state = {
+    ...initialState,
+    mapSize: {
+      width: 0,
+      height: 0,
+    },
+  };
 
   componentWillMount() {
-    this.setState({
-      currentCity: getRandomCity([]),
-    });
+    this.setState({ currentCity: getRandomCity([]) });
   }
 
   updateGameOnMapClick(clickedCoordinate) {
@@ -42,13 +42,14 @@ class Game extends React.Component {
     const newCity = getRandomCity(newPlayedCities.map(({ id }) => id));
     const gameOver = newPlayedCities.length === 5;
     const distance = getDistanceBetweenClickAndCity(clickedCoordinate, mapSize, currentCity);
-    const newScore = score + distance;
+    const newScore = score + (12742 - distance);
 
     this.setState({
       clickedCoordinate,
       playedCities: newPlayedCities,
       currentCity: newCity,
       gameOver,
+      distance,
       score: newScore,
     });
   }
@@ -58,32 +59,28 @@ class Game extends React.Component {
   }
 
   restartGame() {
-    this.setState(initialState);
-    this.componentWillMount();
+    this.setState({ ...initialState, currentCity: getRandomCity([]) });
   }
 
   render() {
-    const { currentCity, gameOver, score } = this.state;
+    const { currentCity, gameOver, score, distance } = this.state;
 
     return (
       <div>
         <Map
           gameOver={gameOver}
+          playAgain={this.restartGame}
           updateMapSize={this.updateMapSize}
           updateClickCoordinates={this.updateGameOnMapClick}
         />
         <div className={styles.gameMenu}>
           {currentCity &&
-            <div>Find: <strong>{currentCity.name}</strong></div>
+            <div><p>Find: <strong>{currentCity.name}</strong></p></div>
           }
           <div>
-            <p>Score: <strong>{score}</strong></p>
+            <p>Score: <strong>{score.toFixed(0)}</strong></p>
+            {distance && <p>Distance: <strong>{distance.toFixed(3)}</strong></p>}
           </div>
-          {gameOver &&
-            <Button variant="contained" color="primary" onClick={this.restartGame}>
-              Play again
-            </Button>
-          }
         </div>
       </div>
     );

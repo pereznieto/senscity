@@ -16,8 +16,9 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
   text-transform: uppercase;
-  letter-spacing: 3px;
+  letter-spacing: 15px;
   font-size: 55px;
   top: 0;
   left: 0;
@@ -26,4 +27,8 @@
   background-color: rgba(0,0,0,.2);
   cursor: default;
   z-index: 2;
+}
+
+.gameOverText {
+  margin-bottom: 30px;
 }

@@ -1,5 +1,6 @@
 import React from 'react';
 import styles from './Map.module.scss';
+import Button from "@material-ui/core/Button";
 
 class Map extends React.Component {
     constructor(props) {
@@ -34,14 +35,25 @@ class Map extends React.Component {
     }
 
     render() {
-        const { gameOver } = this.props;
+        const { gameOver, playAgain } = this.props;
         return (
             <div
                 ref={this.mapDiv}
                 onClick={!gameOver ? this.getMouseCoordinates : undefined}
                 className={styles.map}
             >
-                {gameOver && <div className={styles.gameOver}>Game over</div>}
+                {gameOver &&
+                    <div className={styles.gameOver}>
+                        <div className={styles.gameOverText}>Game over</div>
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            onClick={playAgain}
+                        >
+                            Play again
+                        </Button>
+                    </div>
+                }
             </div>
         );
     }
