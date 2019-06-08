@@ -54,6 +54,10 @@ class Game extends React.Component {
     });
   }
 
+  restartGame(mode) {
+    this.setState({ ...initialState, mode, currentCity: this.getCity()([]), isRunning: true });
+  }
+
   getCity() {
     const { mode } = this.state;
 
@@ -66,6 +70,14 @@ class Game extends React.Component {
     }
 
     return getRandomCity(500000);
+  }
+
+  nextCity() {
+    this.setState({ pause: null, isRunning: true });
+  }
+
+  updateMapSize(mapSize) {
+    this.setState({ mapSize });
   }
 
   endTurn(clickedCoordinate) {
@@ -99,18 +111,6 @@ class Game extends React.Component {
         clicked,
       },
     });
-  }
-
-  nextCity() {
-    this.setState({ pause: null, isRunning: true });
-  }
-
-  updateMapSize(mapSize) {
-    this.setState({ mapSize });
-  }
-
-  restartGame() {
-    this.setState({ ...initialState, currentCity: this.getCity()([]), isRunning: true });
   }
 
   render() {

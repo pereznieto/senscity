@@ -42,41 +42,6 @@ class Map extends React.Component {
         onClick={(!gameOver && !pause && !splashScreen) ? this.getMouseCoordinates : undefined}
         className={styles.map}
       >
-        {splashScreen &&
-          <div className={styles.splash}>
-            <div className={styles.splashText}>Senscity</div>
-            <div className={styles.difficultyText}>Select difficulty to start:</div>
-            <div className={styles.buttonWrapper}>
-              <Button
-                variant="contained"
-                color="primary"
-                size="large"
-                className={styles.startButton}
-                onClick={() => { startGame('easy'); }}
-              >
-                Easy
-            </Button>
-              <Button
-                variant="contained"
-                color="primary"
-                size="large"
-                className={styles.startButton}
-                onClick={() => { startGame('normal'); }}
-              >
-                Normal
-            </Button>
-              <Button
-                variant="contained"
-                color="primary"
-                size="large"
-                className={styles.startButton}
-                onClick={() => { startGame('hard'); }}
-              >
-                Hard
-            </Button>
-            </div>
-          </div>
-        }
         {pause &&
           <div className={styles.pause}>
             <div
@@ -91,17 +56,39 @@ class Map extends React.Component {
             }
           </div>
         }
-        {gameOver &&
-          <div className={styles.gameOver}>
-            <div className={styles.gameOverText}>Game over</div>
-            <Button
-              variant="contained"
-              color="primary"
-              size="large"
-              onClick={playAgain}
-            >
-              Play again
+        {(splashScreen || gameOver) &&
+          <div className={styles.splash}>
+            <div className={styles.splashText}>Senscity</div>
+            <div className={styles.difficultyText}>Select difficulty to {gameOver ? 'play again' : 'start'}:</div>
+            <div className={styles.buttonWrapper}>
+              <Button
+                variant="contained"
+                color="primary"
+                size="large"
+                className={styles.startButton}
+                onClick={() => { gameOver ? playAgain('easy') : startGame('easy'); }}
+              >
+                Easy
             </Button>
+              <Button
+                variant="contained"
+                color="primary"
+                size="large"
+                className={styles.startButton}
+                onClick={() => { gameOver ? playAgain('normal') : startGame('normal'); }}
+              >
+                Normal
+            </Button>
+              <Button
+                variant="contained"
+                color="primary"
+                size="large"
+                className={styles.startButton}
+                onClick={() => { gameOver ? playAgain('hard') : startGame('hard'); }}
+              >
+                Hard
+            </Button>
+            </div>
           </div>
         }
       </div>
