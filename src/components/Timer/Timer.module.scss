@@ -9,6 +9,16 @@
   position: absolute;
   left: 0;
   height: 5px;
-  background-color: orange;
   width: 100%;
+  background-color: orange;
+}
+
+@keyframes :global(redden) {
+  0%,
+  50% {
+    background-color: orange;
+  }
+  100% {
+    background-color: red;
+  }
 }

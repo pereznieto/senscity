@@ -48,9 +48,14 @@ class Timer extends React.Component {
   }
 
   render() {
+    const { timeLeft } = this.state;
+    const { isRunning } = this.props;
+    const width = `${(millisecondsPerTurn - timeLeft) * 100 / millisecondsPerTurn}%`;
+    const animation = isRunning ? `redden ${millisecondsPerTurn / 1000}s ease-out` : '';
+
     return (
       <div className={styles.timer}>
-        <div className={styles.time} style={{ width: `${(millisecondsPerTurn - this.state.timeLeft) * 100 / millisecondsPerTurn}%` }} />
+        <div className={styles.time} style={{ width, animation }} />
       </div>
     );
   }
