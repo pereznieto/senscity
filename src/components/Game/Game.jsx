@@ -138,30 +138,30 @@ class Game extends React.Component {
             />
           }
           <Grid container spacing={2}>
-            <Grid item xs={3}>
-              {!splashScreen &&
-                <div className={cx(styles.score, { [styles.bigScore]: gameOver })}>
+            {!splashScreen &&
+              <Grid item sm={4}>
+                <div className={cx(styles.score, { [styles.finalScore]: gameOver })}>
                   <p>
                     {gameOver ? 'Final score:' : 'Score:'} <strong>{score.toFixed(0)}</strong>
                   </p>
                 </div>
-              }
-            </Grid>
-            <Grid item xs={2}>
-              {!splashScreen && !pause && currentCity &&
+              </Grid>
+            }
+            {!splashScreen && !pause && currentCity &&
+              <Grid item sm={4}>
                 <div><p>Find: <strong>{displayName}</strong></p></div>
-              }
-            </Grid>
+              </Grid>
+            }
             {pause && (
               <React.Fragment>
-                <Grid item xs={4}>
+                <Grid item sm={4}>
                   <div className={styles.distance}>
                     <p>
                       You missed <strong>{pause.city}</strong> {displayDistance}
                     </p>
                   </div>
                 </Grid>
-                <Grid item xs={3}>
+                <Grid item sm={4}>
                   {!gameOver &&
                     <Button
                       variant="contained"

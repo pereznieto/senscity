@@ -1,3 +1,5 @@
+@import '../../mixins';
+
 .gameMenu {
   font-size: 25px;
 
@@ -9,16 +11,18 @@
 .score {
   display: inline-block;
   min-width: 181px;
-  margin-bottom: 20px;
   padding: 10px 20px;
   border-radius: 5px;
   background-color: orange;
 }
 
-.bigScore {
+.finalScore {
   font-size: 40px;
+  animation: pulse-orange 3s infinite;
 }
 
 .distance {
   margin-bottom: 20px;
 }
+
+@include pulse(orange, 20px);
