@@ -45,14 +45,36 @@ class Map extends React.Component {
         {splashScreen &&
           <div className={styles.splash}>
             <div className={styles.splashText}>Senscity</div>
-            <Button
-              variant="contained"
-              color="primary"
-              size="large"
-              onClick={startGame}
-            >
-              Start game
-          </Button>
+            <div className={styles.difficultyText}>Select difficulty to start:</div>
+            <div className={styles.buttonWrapper}>
+              <Button
+                variant="contained"
+                color="primary"
+                size="large"
+                className={styles.startButton}
+                onClick={() => { startGame('easy'); }}
+              >
+                Easy
+            </Button>
+              <Button
+                variant="contained"
+                color="primary"
+                size="large"
+                className={styles.startButton}
+                onClick={() => { startGame('normal'); }}
+              >
+                Normal
+            </Button>
+              <Button
+                variant="contained"
+                color="primary"
+                size="large"
+                className={styles.startButton}
+                onClick={() => { startGame('hard'); }}
+              >
+                Hard
+            </Button>
+            </div>
           </div>
         }
         {pause &&

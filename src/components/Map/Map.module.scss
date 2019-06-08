@@ -45,6 +45,22 @@
   font-size: 70px;
 }
 
+.difficultyText {
+  font-size: 30px;
+  letter-spacing: 5px;
+  text-transform: none;
+  margin-bottom: 30px;
+}
+
+.buttonWrapper {
+  display: flex;
+
+  > .startButton {
+    margin: 0 10px;
+    cursor: pointer;
+  }
+}
+
 .realCoordinates,
 .clickedCoordinates {
   position: absolute;

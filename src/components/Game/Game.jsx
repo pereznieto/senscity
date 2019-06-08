@@ -33,6 +33,7 @@ class Game extends React.Component {
     this.updateMapSize = this.updateMapSize.bind(this);
     this.restartGame = this.restartGame.bind(this);
     this.nextCity = this.nextCity.bind(this);
+    this.getCity = this.getCity.bind(this);
   }
 
   state = {
@@ -44,18 +45,33 @@ class Game extends React.Component {
     splashScreen: true,
   };
 
-  startGame() {
+  startGame(mode) {
     this.setState({
       isRunning: true,
       splashScreen: false,
-      currentCity: getRandomCity([]),
+      mode,
+      currentCity: this.getCity()([]),
     });
   }
 
+  getCity() {
+    const { mode } = this.state;
+
+    if (mode === 'easy') {
+      return getRandomCity(2000000);
+    } else if (mode === 'normal') {
+      return getRandomCity(1000000);
+    } else if (mode === 'hard') {
+      return getRandomCity(100000);
+    }
+
+    return getRandomCity(500000);
+  }
+
   endTurn(clickedCoordinate) {
-    const { playedCities, currentCity, mapSize, score, timeLeft } = this.state;
+    const { playedCities, currentCity, mapSize, score, timeLeft, mode } = this.state;
     const newPlayedCities = [...playedCities, currentCity];
-    const newCity = getRandomCity(newPlayedCities.map(({ id }) => id));
+    const newCity = this.getCity()(newPlayedCities.map(({ id }) => id));
     const gameOver = newPlayedCities.length === citiesPerGame;
     const distance = clickedCoordinate ?
       getDistanceBetweenClickAndCity(clickedCoordinate, mapSize, currentCity) :
@@ -75,7 +91,7 @@ class Game extends React.Component {
       distance,
       score: newScore,
       pause: {
-        city: currentCity.name,
+        city: mode === 'easy' ? `${currentCity.name}, ${currentCity.country}` : currentCity.name,
         real: {
           x: longitudeToX(mapSize.width, currentCity.longitude),
           y: latitudeToY(mapSize.height, currentCity.latitude),
@@ -94,11 +110,12 @@ class Game extends React.Component {
   }
 
   restartGame() {
-    this.setState({ ...initialState, currentCity: getRandomCity([]), isRunning: true });
+    this.setState({ ...initialState, currentCity: this.getCity()([]), isRunning: true });
   }
 
   render() {
-    const { splashScreen, currentCity, gameOver, score, pause, distance, isRunning } = this.state;
+    const { splashScreen, currentCity, gameOver, score, pause, distance, isRunning, mode } = this.state;
+    const displayName = currentCity && (mode === 'easy' ? `${currentCity.name}, ${currentCity.country}` : currentCity.name);
     const displayDistance = distance ? <span>by<strong> {distance.toFixed(2)} km</strong></span> : 'completely!';
 
     return (
@@ -132,7 +149,7 @@ class Game extends React.Component {
             </Grid>
             <Grid item xs={2}>
               {!splashScreen && !pause && currentCity &&
-                <div><p>Find: <strong>{currentCity.name}</strong></p></div>
+                <div><p>Find: <strong>{displayName}</strong></p></div>
               }
             </Grid>
             {pause && (

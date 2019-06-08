@@ -1,7 +1,16 @@
-import { cities } from "../cities/cities";
 import _ from 'lodash';
+import { allCities } from '../cities/allCities';
 
-export const getRandomCity = (playedIds) => {
-  const unplayedCities = cities.filter(({ id }) => playedIds.indexOf(id) === -1);
+export const getRandomCity = maximumPopulation => playedIds => {
+  const unplayedCities = getCities(allCities)
+    .filter(({ id, population }) => playedIds.indexOf(id) === -1 && population > maximumPopulation);
   return _.sample(unplayedCities);
 }
+
+export const getCities = rawCities => rawCities.map(({
+  n: name,
+  lt: latitude,
+  lg: longitude,
+  c: country,
+  p: population,
+}, id) => ({ name, latitude, longitude, country, population, id }));
