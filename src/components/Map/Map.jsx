@@ -3,6 +3,7 @@ import styles from './Map.module.scss';
 import Button from "@material-ui/core/Button";
 import { TextField } from '@material-ui/core';
 import _ from 'lodash';
+import { getScores } from '../../utils/storage';
 
 class Map extends React.Component {
   constructor(props) {
@@ -98,7 +99,7 @@ class Map extends React.Component {
                 Hard
               </Button>
             </div>
-            {gameOver &&
+            {gameOver && !isScoreSaved &&
               <div className={styles.nameWrapper}>
                 <p className={styles.saveText}>Enter your name to save your score:</p>
                 <TextField
@@ -119,6 +120,16 @@ class Map extends React.Component {
                 >
                   {isScoreSaved ? 'Score saved!' : 'Save score'}
                 </Button>
+              </div>
+            }
+            {gameOver && isScoreSaved &&
+              <div className={styles.scores}>
+                <p className={styles.scoresText}>Local scores:</p>
+                {getScores()
+                  .sort((a, b) => a.score > b.score ? -1 : 1)
+                  .map(({ name, score, mode }) => (
+                    <p><strong>{score}:</strong> {name} ({mode})</p>
+                  ))}
               </div>
             }
           </div>

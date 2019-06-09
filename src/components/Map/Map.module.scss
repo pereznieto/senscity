@@ -56,14 +56,21 @@
 }
 
 .nameWrapper {
-  margin-top: 75px;
+  margin-top: 50px;
 
   > .saveButton {
     margin-top: 20px;
   }
 }
 
-.saveText {
+.scores {
+  margin-top: 30px;
+  max-height: 250px;
+  overflow: scroll;
+}
+
+.saveText,
+.scoresText {
   font-size: 25px;
   margin: 0 0 10px;
 }
