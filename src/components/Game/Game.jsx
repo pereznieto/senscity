@@ -8,6 +8,7 @@ import cx from 'classnames';
 import Grid from "@material-ui/core/Grid";
 import { calculatePrevScore } from "../../utils/score";
 import Timer from '../Timer/Timer';
+import { saveScoreLocally } from '../../utils/storage';
 
 const initialState = {
   clickedCoordinate: {
@@ -21,6 +22,7 @@ const initialState = {
   score: 0,
   pause: null,
   isRunning: false,
+  isScoreSaved: false,
 };
 
 const citiesPerGame = 10;
@@ -34,6 +36,7 @@ class Game extends React.Component {
     this.restartGame = this.restartGame.bind(this);
     this.nextCity = this.nextCity.bind(this);
     this.getCity = this.getCity.bind(this);
+    this.saveScore = this.saveScore.bind(this);
   }
 
   state = {
@@ -113,8 +116,24 @@ class Game extends React.Component {
     });
   }
 
+  saveScore(name) {
+    const { score, mode } = this.state;
+    this.setState({ isScoreSaved: true });
+    saveScoreLocally({ name, score, mode });
+  }
+
   render() {
-    const { splashScreen, currentCity, gameOver, score, pause, distance, isRunning, mode } = this.state;
+    const {
+      splashScreen,
+      currentCity,
+      gameOver,
+      score,
+      pause,
+      distance,
+      isRunning,
+      mode,
+      isScoreSaved,
+    } = this.state;
     const displayName = currentCity && (mode === 'easy' ? `${currentCity.name}, ${currentCity.country}` : currentCity.name);
     const displayDistance = distance ? <span>by<strong> {distance.toFixed(2)} km</strong></span> : 'completely!';
 
@@ -128,6 +147,8 @@ class Game extends React.Component {
           playAgain={this.restartGame}
           updateMapSize={this.updateMapSize}
           updateClickCoordinates={this.endTurn}
+          saveScore={this.saveScore}
+          isScoreSaved={isScoreSaved}
         />
         <div className={styles.gameMenu}>
           {!splashScreen &&

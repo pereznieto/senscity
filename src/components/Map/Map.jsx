@@ -1,12 +1,15 @@
 import React from 'react';
 import styles from './Map.module.scss';
 import Button from "@material-ui/core/Button";
+import { TextField } from '@material-ui/core';
+import _ from 'lodash';
 
 class Map extends React.Component {
   constructor(props) {
     super(props);
     this.mapDiv = React.createRef();
     this.getMouseCoordinates = this.getMouseCoordinates.bind(this);
+    this.saveScore = this.saveScore.bind(this);
   }
 
   state = {
@@ -34,8 +37,14 @@ class Map extends React.Component {
     this.props.updateClickCoordinates(coordinates);
   }
 
+  saveScore(event) {
+    event.preventDefault();
+    this.props.saveScore(this.state.name);
+  }
+
   render() {
-    const { splashScreen, startGame, pause, gameOver, playAgain } = this.props;
+    const { splashScreen, startGame, pause, gameOver, playAgain, isScoreSaved } = this.props;
+
     return (
       <div
         ref={this.mapDiv}
@@ -69,7 +78,7 @@ class Map extends React.Component {
                 onClick={() => { gameOver ? playAgain('easy') : startGame('easy'); }}
               >
                 Easy
-            </Button>
+              </Button>
               <Button
                 variant="contained"
                 color="primary"
@@ -78,7 +87,7 @@ class Map extends React.Component {
                 onClick={() => { gameOver ? playAgain('normal') : startGame('normal'); }}
               >
                 Normal
-            </Button>
+              </Button>
               <Button
                 variant="contained"
                 color="primary"
@@ -87,8 +96,31 @@ class Map extends React.Component {
                 onClick={() => { gameOver ? playAgain('hard') : startGame('hard'); }}
               >
                 Hard
-            </Button>
+              </Button>
             </div>
+            {gameOver &&
+              <div className={styles.nameWrapper}>
+                <p className={styles.saveText}>Enter your name to save your score:</p>
+                <TextField
+                  fullWidth
+                  id="name"
+                  variant="outlined"
+                  onChange={event => { this.setState({ name: _.startCase(event.target.value) }); }}
+                  label="Name"
+                  disabled={isScoreSaved}
+                />
+                <Button
+                  variant="contained"
+                  color="secondary"
+                  size="large"
+                  onClick={this.saveScore}
+                  className={styles.saveButton}
+                  disabled={isScoreSaved}
+                >
+                  {isScoreSaved ? 'Score saved!' : 'Save score'}
+                </Button>
+              </div>
+            }
           </div>
         }
       </div>

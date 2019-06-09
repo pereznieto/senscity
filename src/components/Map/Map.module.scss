@@ -55,6 +55,19 @@
   }
 }
 
+.nameWrapper {
+  margin-top: 75px;
+
+  > .saveButton {
+    margin-top: 20px;
+  }
+}
+
+.saveText {
+  font-size: 25px;
+  margin: 0 0 10px;
+}
+
 .realCoordinates,
 .clickedCoordinates {
   position: absolute;
