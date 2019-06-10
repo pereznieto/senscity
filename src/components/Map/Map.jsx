@@ -4,6 +4,7 @@ import Button from "@material-ui/core/Button";
 import { TextField } from '@material-ui/core';
 import _ from 'lodash';
 import { getScores } from '../../utils/storage';
+import { getLineBetweenTwoPoints } from '../../utils/distance';
 
 class Map extends React.Component {
   constructor(props) {
@@ -56,13 +57,16 @@ class Map extends React.Component {
           <div className={styles.pause}>
             <div
               className={styles.realCoordinates}
-              style={{ top: `${pause.real.y}px`, left: `${pause.real.x}px` }}
+              style={{ top: `${pause.real.y - 4}px`, left: `${pause.real.x - 4}px` }}
             />
             {pause.clicked &&
-              <div
-                className={styles.clickedCoordinates}
-                style={{ top: `${pause.clicked.y}px`, left: `${pause.clicked.x}px` }}
-              />
+              <React.Fragment>
+                <div
+                  className={styles.clickedCoordinates}
+                  style={{ top: `${pause.clicked.y - 4}px`, left: `${pause.clicked.x - 4}px` }}
+                />
+                <div className={styles.line} style={getLineBetweenTwoPoints(pause.real, pause.clicked)} />
+              </React.Fragment>
             }
           </div>
         }

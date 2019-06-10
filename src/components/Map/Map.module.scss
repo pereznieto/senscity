@@ -102,14 +102,18 @@
   min-width: 65px;
 }
 
+.line {
+  position: absolute;
+  background: linear-gradient(90deg, red, limegreen);
+  opacity: .75;
+}
 
 .realCoordinates,
 .clickedCoordinates {
   position: absolute;
-  top: 350px;
-  left: 500px;
-  width: 7px;
-  height: 7px;
+  width: 8px;
+  height: 8px;
+  z-index: 1;
   border-radius: 50%;
   background-color: rgba(red, .75);
   animation: pulse-red 1.5s infinite;
@@ -118,8 +122,6 @@
 .realCoordinates {
   background-color: rgba(limegreen, .75);
   animation-name: pulse-limegreen;
-  top: 352px;
-  left: 505px;
 }
 
 @include pulse(red);

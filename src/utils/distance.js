@@ -28,3 +28,29 @@ const getDistanceBetweenTwoCoordinates = (lat1, lon1, lat2, lon2) => {
 
   return earthDiameter * Math.asin(Math.sqrt(0.5 - cos((lat2 - lat1) * rad) / 2 + cos(lat1 * rad) * cos(lat2 * rad) * (1 - cos((lon2 - lon1) * rad)) / 2));
 }
+
+export const getLineBetweenTwoPoints = ({ x: x1, y: y1 }, { x: x2, y: y2 }) => {
+  const height = 2;
+  const width = getDistanceBetweenTwoPoints(x1, y1, x2, y2);
+  const angle = getAngleBetweenTwoPoints(x1, y1, x2, y2);
+  const centre = getCentreBetweenTwoPoints(x1, y1, x2, y2, width, height);
+
+  return {
+    width,
+    height: `${height}px`,
+    left: `${centre.x}px`,
+    top: `${centre.y}px`,
+    transform: `rotate(${angle}deg)`,
+  };
+};
+
+const getDistanceBetweenTwoPoints = (x1, y1, x2, y2) =>
+  Math.sqrt((Math.pow(x2 - x1, 2)) + (Math.pow(y2 - y1, 2)));
+
+const getAngleBetweenTwoPoints = (x1, y1, x2, y2) =>
+  Math.atan2((y1 - y2), (x1 - x2)) * (180 / Math.PI);
+
+const getCentreBetweenTwoPoints = (x1, y1, x2, y2, length, thickness) => ({
+  x: ((x1 + x2) / 2) - (length / 2),
+  y: ((y1 + y2) / 2) - (thickness / 2),
+});
