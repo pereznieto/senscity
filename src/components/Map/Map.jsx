@@ -132,7 +132,7 @@ class Map extends React.Component {
                       <div className={styles.score}>
                         <strong className={styles.scoreItem}>{score}:</strong>
                         <span className={styles.nameItem}>{name}</span>
-                        <em className={styles.modeItem}>({mode})</em>
+                        <em className={styles.modeItem}>({_.startCase(mode)})</em>
                       </div>
                     ))}
                 </div>
