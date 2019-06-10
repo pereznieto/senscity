@@ -64,7 +64,7 @@
 }
 
 .scores {
-  margin-top: 30px;
+  margin-top: 50px;
   max-height: 250px;
   overflow: scroll;
 }
@@ -74,6 +74,34 @@
   font-size: 25px;
   margin: 0 0 10px;
 }
+
+.scoresText {
+  font-weight: 700;
+}
+
+.topScores {
+  text-align: left;
+}
+
+.score {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.scoreItem {
+  min-width: 35px;
+}
+
+.nameItem {
+  min-width: 150px;
+  padding: 0 10px;
+}
+
+.modeItem {
+  min-width: 65px;
+}
+
 
 .realCoordinates,
 .clickedCoordinates {

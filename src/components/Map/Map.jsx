@@ -124,12 +124,18 @@ class Map extends React.Component {
             }
             {gameOver && isScoreSaved &&
               <div className={styles.scores}>
-                <p className={styles.scoresText}>Local scores:</p>
-                {getScores()
-                  .sort((a, b) => a.score > b.score ? -1 : 1)
-                  .map(({ name, score, mode }) => (
-                    <p><strong>{score}:</strong> {name} ({mode})</p>
-                  ))}
+                <p className={styles.scoresText}>Smartest folks in here:</p>
+                <div className={styles.topScores}>
+                  {getScores()
+                    .sort((a, b) => a.score > b.score ? -1 : 1)
+                    .map(({ name, score, mode }) => (
+                      <div className={styles.score}>
+                        <strong className={styles.scoreItem}>{score}:</strong>
+                        <span className={styles.nameItem}>{name}</span>
+                        <em className={styles.modeItem}>({mode})</em>
+                      </div>
+                    ))}
+                </div>
               </div>
             }
           </div>
