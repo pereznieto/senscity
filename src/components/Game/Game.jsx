@@ -85,17 +85,23 @@ class Game extends React.Component {
 
   endTurn(clickedCoordinate) {
     const { playedCities, currentCity, mapSize, score, timeLeft, mode } = this.state;
-    const newPlayedCities = [...playedCities, currentCity];
-    const newCity = this.getCity()(newPlayedCities.map(({ id }) => id));
-    const gameOver = newPlayedCities.length === citiesPerGame;
     const distance = clickedCoordinate ?
       getDistanceBetweenClickAndCity(clickedCoordinate, mapSize, currentCity) :
       null;
-    const newScore = distance ? score + calculatePrevScore(distance, timeLeft) : score;
+    const turnScore = calculatePrevScore(distance, timeLeft);
+    const newScore = distance ? score + turnScore : score;
     const clicked = clickedCoordinate ? {
       x: clickedCoordinate.x,
       y: clickedCoordinate.y,
     } : null;
+    const newPlayedCities = [...playedCities, {
+      ...currentCity,
+      clicked,
+      distance,
+      score: turnScore,
+    }];
+    const newCity = this.getCity()(newPlayedCities.map(({ id }) => id));
+    const gameOver = newPlayedCities.length === citiesPerGame;
 
     this.setState({
       isRunning: false,
