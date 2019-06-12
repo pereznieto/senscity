@@ -19,7 +19,7 @@ class Map extends React.Component {
     height: 0,
     top: 0,
     left: 0,
-  }
+  };
 
   componentDidMount() {
     const width = this.mapDiv.current.offsetWidth;

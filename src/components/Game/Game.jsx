@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './Game.module.scss';
 import Map from "../Map/Map";
-import { getRandomCity } from '../../utils/city';
+import {getRandomCity, getRandomPopularCity} from '../../utils/city';
 import { getDistanceBetweenClickAndCity, latitudeToY, longitudeToX } from '../../utils/distance';
 import Button from "@material-ui/core/Button";
 import cx from 'classnames';
@@ -65,7 +65,7 @@ class Game extends React.Component {
     const { mode } = this.state;
 
     if (mode === 'easy') {
-      return getRandomCity(2000000);
+      return getRandomPopularCity;
     } else if (mode === 'normal') {
       return getRandomCity(1000000);
     } else if (mode === 'hard') {
