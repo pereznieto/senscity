@@ -22455,4 +22455,4 @@ export const allCities = [
     c: 'United States',
     p: 100196
   }
-]
+];

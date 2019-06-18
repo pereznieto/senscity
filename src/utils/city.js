@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import { allCities } from '../cities/allCities';
-import {popularCities} from "../cities/popularCities";
+import { popularCities } from "../cities/popularCities";
 
 export const getRandomCity = maximumPopulation => playedIds => {
   const unplayedCities = getCities(allCities)
@@ -21,3 +21,14 @@ export const getCities = rawCities => rawCities.map(({
   c: country,
   p: population,
 }, id) => ({ name, latitude, longitude, country, population, id }));
+
+export const isCityNameDuplicate = cityName => {
+  return getCities(allCities).reduce(
+    (acc, cur) => {
+      if(cur.name === cityName) {
+        return acc.concat(cur)
+      }
+      return acc;
+    }, []
+  ).length > 1
+};

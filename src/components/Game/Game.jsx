@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './Game.module.scss';
 import Map from "../Map/Map";
-import {getRandomCity, getRandomPopularCity} from '../../utils/city';
+import { getRandomCity, getRandomPopularCity, isCityNameDuplicate } from '../../utils/city';
 import { getDistanceBetweenClickAndCity, latitudeToY, longitudeToX } from '../../utils/distance';
 import Button from "@material-ui/core/Button";
 import cx from 'classnames';
@@ -26,6 +26,16 @@ const initialState = {
 };
 
 const citiesPerGame = 10;
+
+const getDisplayName = (city, mode) => {
+  if (city) {
+    const displayName = city.name;
+    if (mode === 'easy' || isCityNameDuplicate(city.name)) {
+      return `${city.name}, ${city.country}`
+    }
+    return displayName
+  }
+};
 
 class Game extends React.Component {
   constructor(props) {
@@ -140,7 +150,7 @@ class Game extends React.Component {
       mode,
       isScoreSaved,
     } = this.state;
-    const displayName = currentCity && (mode === 'easy' ? `${currentCity.name}, ${currentCity.country}` : currentCity.name);
+    const displayName = getDisplayName(currentCity, mode);
     const displayDistance = distance ? <span>by<strong> {distance.toFixed(2)} km</strong></span> : 'completely!';
 
     return (
