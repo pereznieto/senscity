@@ -1,18 +1,17 @@
-import React from 'react';
-import styles from './Timer.module.scss';
+import React from "react";
+import styles from "./Timer.module.scss";
 
 export const millisecondsPerTurn = 5000;
 
 class Timer extends React.Component {
-
   constructor(props) {
     super(props);
     this.tick = this.tick.bind(this);
   }
 
   state = {
-    timeLeft: millisecondsPerTurn,
-  }
+    timeLeft: millisecondsPerTurn
+  };
 
   componentDidMount() {
     if (this.props.isRunning) {
@@ -50,8 +49,11 @@ class Timer extends React.Component {
   render() {
     const { timeLeft } = this.state;
     const { isRunning } = this.props;
-    const width = `${(millisecondsPerTurn - timeLeft) * 100 / millisecondsPerTurn}%`;
-    const animation = isRunning ? `redden ${millisecondsPerTurn / 1000}s ease-out` : '';
+    const width = `${((millisecondsPerTurn - timeLeft) * 100) /
+      millisecondsPerTurn}%`;
+    const animation = isRunning
+      ? `redden ${millisecondsPerTurn / 1000}s ease-out`
+      : "";
 
     return (
       <div className={styles.timer}>
