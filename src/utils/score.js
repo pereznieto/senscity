@@ -9,7 +9,7 @@ const timeWeighting = 0.2;
 const normalizeScore = score =>
   Math.pow(score * Math.pow(maxScorePerRound, 1 / Math.E), Math.E);
 
-export const calculatePrevScore = (distance, timeLeft) => {
+export const calculateTurnScore = (distance, timeLeft) => {
   const rawDistanceScore =
     (halfEarthCircumference - distance) / halfEarthCircumference;
   const distanceScore = normalizeScore(rawDistanceScore);

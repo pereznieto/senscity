@@ -4,17 +4,17 @@ import Map from "../Map/Map";
 import {
   getRandomCity,
   getRandomPopularCity,
-  isCityNameDuplicate
+  isCityNameDuplicate,
 } from "../../utils/city";
 import {
   getDistanceBetweenClickAndCity,
   latitudeToY,
-  longitudeToX
+  longitudeToX,
 } from "../../utils/distance";
 import Button from "@material-ui/core/Button";
 import cx from "classnames";
 import Grid from "@material-ui/core/Grid";
-import { calculatePrevScore } from "../../utils/score";
+import { calculateTurnScore } from "../../utils/score";
 import Timer from "../Timer/Timer";
 import { saveScoreLocally } from "../../utils/storage";
 
@@ -88,7 +88,6 @@ class Game extends React.Component {
 
   getCity() {
     const { mode } = this.state;
-
     if (mode === "easy") {
       return getRandomPopularCity;
     } else if (mode === "normal") {
@@ -119,13 +118,13 @@ class Game extends React.Component {
     const distance = clickedCoordinate
       ? getDistanceBetweenClickAndCity(clickedCoordinate, mapSize, currentCity)
       : null;
-    const turnScore = calculatePrevScore(distance, timeLeft);
+    const turnScore = calculateTurnScore(distance, timeLeft);
     const newScore = distance ? score + turnScore : score;
     const clicked = clickedCoordinate
       ? {
-          x: clickedCoordinate.x,
-          y: clickedCoordinate.y
-        }
+        x: clickedCoordinate.x,
+        y: clickedCoordinate.y
+      }
       : null;
     const newPlayedCities = [
       ...playedCities,
@@ -183,8 +182,8 @@ class Game extends React.Component {
         by<strong> {distance.toFixed(2)} km</strong>
       </span>
     ) : (
-      "completely!"
-    );
+        "completely!"
+      );
 
     return (
       <div>
@@ -218,7 +217,7 @@ class Game extends React.Component {
                   })}
                 >
                   <p>
-                    {gameOver ? "Final score:" : "Score:"}{" "}
+                    {gameOver ? 'Final score: ' : 'Score: '}
                     <strong>{score.toFixed(0)}</strong>
                   </p>
                 </div>

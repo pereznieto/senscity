@@ -26,13 +26,7 @@ export const getCities = rawCities =>
     ) => ({ name, latitude, longitude, country, population, id })
   );
 
-export const isCityNameDuplicate = cityName => {
-  return (
-    getCities(allCities).reduce((acc, cur) => {
-      if (cur.name === cityName) {
-        return acc.concat(cur);
-      }
-      return acc;
-    }, []).length > 1
-  );
-};
+export const isCityNameDuplicate = cityName =>
+  getCities(allCities).reduce((accumulator, current) =>
+    (current.name === cityName) ? [...accumulator, current] : accumulator,
+    []).length > 1;
