@@ -1,27 +1,36 @@
-import React from "react";
-import styles from "./Game.module.scss";
-import Map from "../Map/Map";
+import React from 'react';
 import {
   getRandomCity,
   getRandomPopularCity,
   isCityNameDuplicate,
-} from "../../utils/city";
+} from '../../utils/city';
 import {
   getDistanceBetweenClickAndCity,
   latitudeToY,
   longitudeToX,
-} from "../../utils/distance";
-import Button from "@material-ui/core/Button";
-import cx from "classnames";
-import Grid from "@material-ui/core/Grid";
-import { calculateTurnScore } from "../../utils/score";
-import Timer from "../Timer/Timer";
-import { saveScoreLocally } from "../../utils/storage";
+} from '../../utils/distance';
+import { calculateTurnScore } from '../../utils/score';
+import { saveScoreLocally } from '../../utils/storage';
+import Controls from '../Controls/Controls';
+import Map from '../Map/Map';
+import Timer from '../Timer/Timer';
+import styles from './Game.module.scss';
+
+const citiesPerGame = 10;
+
+const getDisplayName = ({ name, country }, mode) => {
+  if (name) {
+    if (mode === 'easy' || isCityNameDuplicate(name)) {
+      return `${name}, ${country}`;
+    }
+    return name;
+  }
+};
 
 const initialState = {
   clickedCoordinate: {
     x: null,
-    y: null
+    y: null,
   },
   currentCity: null,
   playedCities: [],
@@ -30,19 +39,7 @@ const initialState = {
   score: 0,
   pause: null,
   isRunning: false,
-  isScoreSaved: false
-};
-
-const citiesPerGame = 10;
-
-const getDisplayName = (city, mode) => {
-  if (city) {
-    const displayName = city.name;
-    if (mode === "easy" || isCityNameDuplicate(city.name)) {
-      return `${city.name}, ${city.country}`;
-    }
-    return displayName;
-  }
+  isScoreSaved: false,
 };
 
 class Game extends React.Component {
@@ -61,9 +58,9 @@ class Game extends React.Component {
     ...initialState,
     mapSize: {
       width: 0,
-      height: 0
+      height: 0,
     },
-    splashScreen: true
+    splashScreen: true,
   };
 
   startGame(mode) {
@@ -71,7 +68,7 @@ class Game extends React.Component {
       this.setState({
         isRunning: true,
         splashScreen: false,
-        currentCity: this.getCity()([])
+        currentCity: this.getCity()([]),
       });
     });
   }
@@ -81,18 +78,18 @@ class Game extends React.Component {
       this.setState({
         ...initialState,
         currentCity: this.getCity()([]),
-        isRunning: true
+        isRunning: true,
       });
     });
   }
 
   getCity() {
     const { mode } = this.state;
-    if (mode === "easy") {
+    if (mode === 'easy') {
       return getRandomPopularCity;
-    } else if (mode === "normal") {
+    } else if (mode === 'normal') {
       return getRandomCity(1000000);
-    } else if (mode === "hard") {
+    } else if (mode === 'hard') {
       return getRandomCity(100000);
     }
   }
@@ -106,14 +103,7 @@ class Game extends React.Component {
   }
 
   endTurn(clickedCoordinate) {
-    const {
-      playedCities,
-      currentCity,
-      mapSize,
-      score,
-      timeLeft,
-      mode
-    } = this.state;
+    const { playedCities, currentCity, mapSize, score, timeLeft, mode } = this.state;
 
     const distance = clickedCoordinate
       ? getDistanceBetweenClickAndCity(clickedCoordinate, mapSize, currentCity)
@@ -122,9 +112,9 @@ class Game extends React.Component {
     const newScore = distance ? score + turnScore : score;
     const clicked = clickedCoordinate
       ? {
-        x: clickedCoordinate.x,
-        y: clickedCoordinate.y
-      }
+          x: clickedCoordinate.x,
+          y: clickedCoordinate.y,
+        }
       : null;
     const newPlayedCities = [
       ...playedCities,
@@ -132,8 +122,8 @@ class Game extends React.Component {
         ...currentCity,
         clicked,
         distance,
-        score: turnScore
-      }
+        score: turnScore,
+      },
     ];
 
     const newCity = this.getCity()(newPlayedCities.map(({ id }) => id));
@@ -151,10 +141,10 @@ class Game extends React.Component {
         city: getDisplayName(currentCity, mode),
         real: {
           x: longitudeToX(mapSize.width, currentCity.longitude),
-          y: latitudeToY(mapSize.height, currentCity.latitude)
+          y: latitudeToY(mapSize.height, currentCity.latitude),
         },
-        clicked
-      }
+        clicked,
+      },
     });
   }
 
@@ -174,16 +164,8 @@ class Game extends React.Component {
       distance,
       isRunning,
       mode,
-      isScoreSaved
+      isScoreSaved,
     } = this.state;
-    const displayName = getDisplayName(currentCity, mode);
-    const displayDistance = distance ? (
-      <span>
-        by<strong> {distance.toFixed(2)} km</strong>
-      </span>
-    ) : (
-        "completely!"
-      );
 
     return (
       <div>
@@ -208,54 +190,17 @@ class Game extends React.Component {
               onEnd={this.endTurn}
             />
           )}
-          <Grid container spacing={2}>
-            {!splashScreen && (
-              <Grid item sm={4}>
-                <div
-                  className={cx(styles.score, {
-                    [styles.finalScore]: gameOver
-                  })}
-                >
-                  <p>
-                    {gameOver ? 'Final score: ' : 'Score: '}
-                    <strong>{score.toFixed(0)}</strong>
-                  </p>
-                </div>
-              </Grid>
-            )}
-            {!splashScreen && !pause && currentCity && (
-              <Grid item sm={4}>
-                <div>
-                  <p>
-                    Find: <strong>{displayName}</strong>
-                  </p>
-                </div>
-              </Grid>
-            )}
-            {pause && (
-              <React.Fragment>
-                <Grid item sm={4}>
-                  <div className={styles.distance}>
-                    <p>
-                      You missed <strong>{pause.city}</strong> {displayDistance}
-                    </p>
-                  </div>
-                </Grid>
-                <Grid item sm={4}>
-                  {!gameOver && (
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      size="large"
-                      onClick={this.nextCity}
-                    >
-                      Next city
-                    </Button>
-                  )}
-                </Grid>
-              </React.Fragment>
-            )}
-          </Grid>
+          <Controls
+            mode={mode}
+            score={score}
+            pause={pause}
+            gameOver={gameOver}
+            distance={distance}
+            getDisplayName={getDisplayName}
+            splashScreen={splashScreen}
+            currentCity={currentCity}
+            nextCity={this.nextCity}
+          />
         </div>
       </div>
     );

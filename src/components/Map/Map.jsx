@@ -1,10 +1,10 @@
-import React from 'react';
-import styles from './Map.module.scss';
-import Button from "@material-ui/core/Button";
 import { TextField } from '@material-ui/core';
+import Button from '@material-ui/core/Button';
 import _ from 'lodash';
-import { getScores } from '../../utils/storage';
+import React from 'react';
 import { getLineBetweenTwoPoints } from '../../utils/distance';
+import { getScores } from '../../utils/storage';
+import styles from './Map.module.scss';
 
 class Map extends React.Component {
   constructor(props) {
@@ -27,7 +27,12 @@ class Map extends React.Component {
     const { top, left } = this.mapDiv.current.getBoundingClientRect();
 
     this.props.updateMapSize({ width, height });
-    this.setState({ width, height, top: top.toFixed(0), left: left.toFixed(0) });
+    this.setState({
+      width,
+      height,
+      top: top.toFixed(0),
+      left: left.toFixed(0),
+    });
   }
 
   getMouseCoordinates({ clientX, clientY }) {
@@ -45,79 +50,107 @@ class Map extends React.Component {
   }
 
   render() {
-    const { splashScreen, startGame, pause, gameOver, playAgain, isScoreSaved } = this.props;
+    const {
+      splashScreen,
+      startGame,
+      pause,
+      gameOver,
+      playAgain,
+      isScoreSaved,
+    } = this.props;
 
     return (
       <div
         ref={this.mapDiv}
-        onClick={(!gameOver && !pause && !splashScreen) ? this.getMouseCoordinates : undefined}
+        onClick={
+          !gameOver && !pause && !splashScreen ? this.getMouseCoordinates : undefined
+        }
         className={styles.map}
       >
-        {pause &&
+        {pause && (
           <div className={styles.pause}>
             <div
               className={styles.realCoordinates}
-              style={{ top: `${pause.real.y - 4}px`, left: `${pause.real.x - 4}px` }}
+              style={{
+                top: `${pause.real.y - 4}px`,
+                left: `${pause.real.x - 4}px`,
+              }}
             />
-            {pause.clicked &&
+            {pause.clicked && (
               <React.Fragment>
                 <div
                   className={styles.clickedCoordinates}
-                  style={{ top: `${pause.clicked.y - 4}px`, left: `${pause.clicked.x - 4}px` }}
+                  style={{
+                    top: `${pause.clicked.y - 4}px`,
+                    left: `${pause.clicked.x - 4}px`,
+                  }}
                 />
-                <div className={styles.line} style={getLineBetweenTwoPoints(pause.real, pause.clicked)} />
+                <div
+                  className={styles.line}
+                  style={getLineBetweenTwoPoints(pause.real, pause.clicked)}
+                />
               </React.Fragment>
-            }
+            )}
           </div>
-        }
-        {(splashScreen || gameOver) &&
+        )}
+        {(splashScreen || gameOver) && (
           <div className={styles.splash}>
             <div className={styles.splashText}>Senscity</div>
-            <div className={styles.difficultyText}>Select difficulty to {gameOver ? 'play again' : 'start'}:</div>
+            <div className={styles.difficultyText}>
+              Select difficulty to {gameOver ? 'play again' : 'start'}:
+            </div>
             <div className={styles.buttonWrapper}>
               <Button
-                variant="contained"
-                color="primary"
-                size="large"
+                variant='contained'
+                color='primary'
+                size='large'
                 className={styles.startButton}
-                onClick={() => { gameOver ? playAgain('easy') : startGame('easy'); }}
+                onClick={() => {
+                  gameOver ? playAgain('easy') : startGame('easy');
+                }}
               >
                 Easy
               </Button>
               <Button
-                variant="contained"
-                color="primary"
-                size="large"
+                variant='contained'
+                color='primary'
+                size='large'
                 className={styles.startButton}
-                onClick={() => { gameOver ? playAgain('normal') : startGame('normal'); }}
+                onClick={() => {
+                  gameOver ? playAgain('normal') : startGame('normal');
+                }}
               >
                 Normal
               </Button>
               <Button
-                variant="contained"
-                color="primary"
-                size="large"
+                variant='contained'
+                color='primary'
+                size='large'
                 className={styles.startButton}
-                onClick={() => { gameOver ? playAgain('hard') : startGame('hard'); }}
+                onClick={() => {
+                  gameOver ? playAgain('hard') : startGame('hard');
+                }}
               >
                 Hard
               </Button>
             </div>
-            {gameOver && !isScoreSaved &&
+            {gameOver && !isScoreSaved && (
               <div className={styles.nameWrapper}>
                 <p className={styles.saveText}>Enter your name to save your score:</p>
                 <TextField
                   fullWidth
-                  id="name"
-                  variant="outlined"
-                  onChange={event => { this.setState({ name: _.startCase(event.target.value) }); }}
-                  label="Name"
+                  id='name'
+                  variant='outlined'
+                  onChange={event => {
+                    this.setState({ name: _.startCase(event.target.value) });
+                  }}
+                  label='Name'
                   disabled={isScoreSaved}
                 />
                 <Button
-                  variant="contained"
-                  color="secondary"
-                  size="large"
+                  variant='contained'
+                  color='secondary'
+                  size='large'
                   onClick={this.saveScore}
                   className={styles.saveButton}
                   disabled={isScoreSaved}
@@ -125,13 +158,13 @@ class Map extends React.Component {
                   {isScoreSaved ? 'Score saved!' : 'Save score'}
                 </Button>
               </div>
-            }
-            {gameOver && isScoreSaved &&
+            )}
+            {gameOver && isScoreSaved && (
               <div className={styles.scores}>
                 <p className={styles.scoresText}>Smartest folks in here:</p>
                 <div className={styles.topScores}>
                   {getScores()
-                    .sort((a, b) => a.score > b.score ? -1 : 1)
+                    .sort((a, b) => (a.score > b.score ? -1 : 1))
                     .map(({ name, score, mode }) => (
                       <div className={styles.score}>
                         <strong className={styles.scoreItem}>{score}:</strong>
@@ -141,9 +174,9 @@ class Map extends React.Component {
                     ))}
                 </div>
               </div>
-            }
+            )}
           </div>
-        }
+        )}
       </div>
     );
   }
