@@ -1,17 +1,13 @@
-import { TextField } from '@material-ui/core';
-import Button from '@material-ui/core/Button';
-import _ from 'lodash';
 import React from 'react';
 import { getLineBetweenTwoPoints } from '../../utils/distance';
-import { getScores } from '../../utils/storage';
 import styles from './Map.module.scss';
+import Splash from '../Splash/Splash';
 
 class Map extends React.Component {
   constructor(props) {
     super(props);
     this.mapDiv = React.createRef();
     this.getMouseCoordinates = this.getMouseCoordinates.bind(this);
-    this.saveScore = this.saveScore.bind(this);
   }
 
   state = {
@@ -36,17 +32,16 @@ class Map extends React.Component {
   }
 
   getMouseCoordinates({ clientX, clientY }) {
-    const { top, left } = this.state;
-    const coordinates = {
-      x: clientX - left,
-      y: clientY - top,
-    };
-    this.props.updateClickCoordinates(coordinates);
-  }
+    const { gameOver, pause, splashScreen } = this.props;
 
-  saveScore(event) {
-    event.preventDefault();
-    this.props.saveScore(this.state.name);
+    if (!gameOver && !pause && !splashScreen) {
+      const { top, left } = this.state;
+      const coordinates = {
+        x: clientX - left,
+        y: clientY - top,
+      };
+      this.props.updateClickCoordinates(coordinates);
+    }
   }
 
   render() {
@@ -60,13 +55,7 @@ class Map extends React.Component {
     } = this.props;
 
     return (
-      <div
-        ref={this.mapDiv}
-        onClick={
-          !gameOver && !pause && !splashScreen ? this.getMouseCoordinates : undefined
-        }
-        className={styles.map}
-      >
+      <div ref={this.mapDiv} onClick={this.getMouseCoordinates} className={styles.map}>
         {pause && (
           <div className={styles.pause}>
             <div
@@ -94,88 +83,13 @@ class Map extends React.Component {
           </div>
         )}
         {(splashScreen || gameOver) && (
-          <div className={styles.splash}>
-            <div className={styles.splashText}>Senscity</div>
-            <div className={styles.difficultyText}>
-              Select difficulty to {gameOver ? 'play again' : 'start'}:
-            </div>
-            <div className={styles.buttonWrapper}>
-              <Button
-                variant='contained'
-                color='primary'
-                size='large'
-                className={styles.startButton}
-                onClick={() => {
-                  gameOver ? playAgain('easy') : startGame('easy');
-                }}
-              >
-                Easy
-              </Button>
-              <Button
-                variant='contained'
-                color='primary'
-                size='large'
-                className={styles.startButton}
-                onClick={() => {
-                  gameOver ? playAgain('normal') : startGame('normal');
-                }}
-              >
-                Normal
-              </Button>
-              <Button
-                variant='contained'
-                color='primary'
-                size='large'
-                className={styles.startButton}
-                onClick={() => {
-                  gameOver ? playAgain('hard') : startGame('hard');
-                }}
-              >
-                Hard
-              </Button>
-            </div>
-            {gameOver && !isScoreSaved && (
-              <div className={styles.nameWrapper}>
-                <p className={styles.saveText}>Enter your name to save your score:</p>
-                <TextField
-                  fullWidth
-                  id='name'
-                  variant='outlined'
-                  onChange={event => {
-                    this.setState({ name: _.startCase(event.target.value) });
-                  }}
-                  label='Name'
-                  disabled={isScoreSaved}
-                />
-                <Button
-                  variant='contained'
-                  color='secondary'
-                  size='large'
-                  onClick={this.saveScore}
-                  className={styles.saveButton}
-                  disabled={isScoreSaved}
-                >
-                  {isScoreSaved ? 'Score saved!' : 'Save score'}
-                </Button>
-              </div>
-            )}
-            {gameOver && isScoreSaved && (
-              <div className={styles.scores}>
-                <p className={styles.scoresText}>Smartest folks in here:</p>
-                <div className={styles.topScores}>
-                  {getScores()
-                    .sort((a, b) => (a.score > b.score ? -1 : 1))
-                    .map(({ name, score, mode }) => (
-                      <div className={styles.score}>
-                        <strong className={styles.scoreItem}>{score}:</strong>
-                        <span className={styles.nameItem}>{name}</span>
-                        <em className={styles.modeItem}>({_.startCase(mode)})</em>
-                      </div>
-                    ))}
-                </div>
-              </div>
-            )}
-          </div>
+          <Splash
+            gameOver={gameOver}
+            startGame={startGame}
+            playAgain={playAgain}
+            isScoreSaved={isScoreSaved}
+            saveScore={this.props.saveScore}
+          />
         )}
       </div>
     );

@@ -18,9 +18,11 @@ import styles from './Game.module.scss';
 
 const citiesPerGame = 10;
 
+export const difficulties = ['easy', 'normal', 'hard'];
+
 const getDisplayName = ({ name, country }, mode) => {
   if (name) {
-    if (mode === 'easy' || isCityNameDuplicate(name)) {
+    if (mode === difficulties[0] || isCityNameDuplicate(name)) {
       return `${name}, ${country}`;
     }
     return name;
@@ -85,11 +87,11 @@ class Game extends React.Component {
 
   getCity() {
     const { mode } = this.state;
-    if (mode === 'easy') {
+    if (mode === difficulties[0]) {
       return getRandomPopularCity;
-    } else if (mode === 'normal') {
+    } else if (mode === difficulties[1]) {
       return getRandomCity(1000000);
-    } else if (mode === 'hard') {
+    } else if (mode === difficulties[2]) {
       return getRandomCity(100000);
     }
   }
