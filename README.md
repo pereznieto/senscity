@@ -4,6 +4,7 @@
 ### Future stuff
 * 🎷 Game music
 * 📜 Instructions
+* 🌐 Favicon
 * 📍 Better turn result screen (display distance and time)
 * 🗺 Summary and detailed results at the end of game (display all attempts on map)
 * 👾 Make 'Normal' mode always display a few easy, a few medium, and a few hard cities
