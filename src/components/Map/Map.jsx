@@ -1,7 +1,7 @@
 import React from 'react';
-import styles from './Map.module.scss';
-import Splash from '../Splash/Splash';
 import RoundResult from '../RoundResult/RoundResult';
+import Splash from '../Splash/Splash';
+import styles from './Map.module.scss';
 
 class Map extends React.Component {
   constructor(props) {

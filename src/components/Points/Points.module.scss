@@ -1,0 +1,26 @@
+@import '../../mixins';
+
+.line {
+  position: absolute;
+  background: linear-gradient(90deg, red, limegreen);
+  opacity: 0.75;
+}
+
+.realCoordinates,
+.clickedCoordinates {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  z-index: 1;
+  border-radius: 50%;
+  background-color: rgba(red, 0.75);
+  animation: pulse-red 1.5s infinite;
+}
+
+.realCoordinates {
+  background-color: rgba(limegreen, 0.75);
+  animation-name: pulse-limegreen;
+}
+
+@include pulse(red);
+@include pulse(limegreen);
