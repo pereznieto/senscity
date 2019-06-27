@@ -1,6 +1,9 @@
 import React from 'react';
+import RoundResult from 'components/RoundResult/RoundResult';
 
-const RoundSummary = ({ roundHistory, playedCities }) =>
-  playedCities.map((playedCity, index) => {});
+const RoundsResult = ({ roundHistory, playedCities }) =>
+  playedCities.map((playedCity, index) => {
+    return <RoundResult real={playedCity} clicked={roundHistory[index]} />;
+  });
 
-export default RoundSummary;
+export default RoundsResult;
