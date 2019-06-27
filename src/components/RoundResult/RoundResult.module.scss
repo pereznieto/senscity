@@ -1,18 +1,7 @@
 @import '../../mixins';
 
-.pause {
-  position: absolute;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(250, 250, 250, 0.05);
-  cursor: default;
-  z-index: 2;
+.roundResult {
+  opacity: 0.75;
 }
 
 .real,
@@ -20,21 +9,21 @@
   position: absolute;
   width: 8px;
   height: 8px;
-  z-index: 1;
+  z-index: 3;
   border-radius: 50%;
-  background-color: rgba(red, 0.75);
-  animation: pulse-red 1.5s infinite;
+  background-color: red;
+  animation: pulse-red 2s infinite;
 }
 
 .real {
-  background-color: rgba(limegreen, 0.75);
+  background-color: limegreen;
   animation-name: pulse-limegreen;
+  animation-delay: 1s;
 }
 
 .line {
   position: absolute;
   background: linear-gradient(90deg, red, limegreen);
-  opacity: 0.75;
 }
 
 @include pulse(red);

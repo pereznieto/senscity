@@ -38,7 +38,9 @@ const Map = () => {
   return (
     <div ref={measuredRef} onClick={getMouseCoordinates} className={styles.map}>
       {pause && !showRoundsResult && (
-        <RoundResult real={pause.real} clicked={pause.clicked} />
+        <div className={styles.pause}>
+          <RoundResult real={pause.real} clicked={pause.clicked} />
+        </div>
       )}
       {(splashScreen || gameOver) && <Splash />}
     </div>

@@ -8,7 +8,7 @@ const getStyle = coordinates => ({
 });
 
 const RoundResult = ({ real, clicked }) => (
-  <div className={styles.pause}>
+  <div className={styles.roundResult}>
     <div className={styles.real} style={getStyle(real)} />
     {clicked && (
       <React.Fragment>
