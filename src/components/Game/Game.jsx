@@ -36,6 +36,7 @@ const initialState = {
   },
   currentCity: null,
   playedCities: [],
+  roundHistory: [],
   gameOver: false,
   distance: null,
   score: 0,
@@ -105,7 +106,15 @@ class Game extends React.Component {
   }
 
   endTurn(clickedCoordinate) {
-    const { playedCities, currentCity, mapSize, score, timeLeft, mode } = this.state;
+    const {
+      playedCities,
+      currentCity,
+      mapSize,
+      score,
+      timeLeft,
+      mode,
+      roundHistory,
+    } = this.state;
 
     const distance = clickedCoordinate
       ? getDistanceBetweenClickAndCity(clickedCoordinate, mapSize, currentCity)
@@ -147,6 +156,7 @@ class Game extends React.Component {
         },
         clicked,
       },
+      roundHistory: roundHistory.concat(clickedCoordinate),
     });
   }
 

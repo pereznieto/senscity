@@ -15,6 +15,7 @@ const Splash = ({ gameOver, startGame, playAgain, isScoreSaved, saveScore }) => 
     <div className={styles.buttonWrapper}>
       {difficulties.map(difficulty => (
         <Button
+          key={difficulty}
           variant='contained'
           color='primary'
           size='large'

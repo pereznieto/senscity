@@ -1,7 +1,7 @@
 import React from 'react';
-import { getLineBetweenTwoPoints } from '../../utils/distance';
 import styles from './Map.module.scss';
 import Splash from '../Splash/Splash';
+import RoundResult from '../RoundResult/RoundResult';
 
 class Map extends React.Component {
   constructor(props) {
@@ -56,32 +56,7 @@ class Map extends React.Component {
 
     return (
       <div ref={this.mapDiv} onClick={this.getMouseCoordinates} className={styles.map}>
-        {pause && (
-          <div className={styles.pause}>
-            <div
-              className={styles.realCoordinates}
-              style={{
-                top: `${pause.real.y - 4}px`,
-                left: `${pause.real.x - 4}px`,
-              }}
-            />
-            {pause.clicked && (
-              <React.Fragment>
-                <div
-                  className={styles.clickedCoordinates}
-                  style={{
-                    top: `${pause.clicked.y - 4}px`,
-                    left: `${pause.clicked.x - 4}px`,
-                  }}
-                />
-                <div
-                  className={styles.line}
-                  style={getLineBetweenTwoPoints(pause.real, pause.clicked)}
-                />
-              </React.Fragment>
-            )}
-          </div>
-        )}
+        {pause && <RoundResult real={pause.real} clicked={pause.clicked} />}
         {(splashScreen || gameOver) && (
           <Splash
             gameOver={gameOver}
