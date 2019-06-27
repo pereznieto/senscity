@@ -16,7 +16,7 @@ import Map from '../Map/Map';
 import Timer from '../Timer/Timer';
 import styles from './Game.module.scss';
 
-const citiesPerGame = 5;
+const citiesPerGame = 10;
 
 export const difficulties = ['easy', 'normal', 'hard'];
 
