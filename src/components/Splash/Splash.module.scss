@@ -11,6 +11,12 @@
   cursor: default;
   z-index: 2;
   background-color: rgba(250, 250, 250, 0.7);
+  transition: all 0.5s ease-in-out;
+
+  &.hide {
+    top: -100%;
+    opacity: 0;
+  }
 
   .title {
     text-transform: uppercase;
