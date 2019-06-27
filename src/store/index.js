@@ -3,12 +3,6 @@ import * as actions from './actions';
 import useGlobalHook from './GlobalHook';
 
 export const initialState = {
-  mapSize: {
-    width: 0,
-    height: 0,
-    top: 0,
-    left: 0,
-  },
   clickedCoordinate: {
     x: null,
     y: null,
