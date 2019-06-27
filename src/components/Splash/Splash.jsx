@@ -8,21 +8,6 @@ import SaveScore from '../SaveScore/SaveScore';
 import RoundsResult from '../RoundsResult/RoundsResult';
 
 class Splash extends React.Component {
-  constructor(props) {
-    super(props);
-    this.toggleRoundsResult = this.toggleRoundsResult.bind(this);
-  }
-
-  state = {
-    showRoundsResult: false,
-  };
-
-  toggleRoundsResult() {
-    this.setState({
-      showRoundsResult: !this.state.showRoundsResult,
-    });
-  }
-
   render() {
     const {
       gameOver,
@@ -31,9 +16,9 @@ class Splash extends React.Component {
       isScoreSaved,
       saveScore,
       playedCities,
+      showRoundsResult,
+      toggleRoundsResult,
     } = this.props;
-
-    const { showRoundsResult } = this.state;
 
     return (
       <React.Fragment>
@@ -42,7 +27,7 @@ class Splash extends React.Component {
             variant='contained'
             color='secondary'
             size='small'
-            onClick={this.toggleRoundsResult}
+            onClick={toggleRoundsResult}
             className={styles.showOverviewButton}
           >
             `{showRoundsResult ? 'Hide' : 'Show'} Overview`

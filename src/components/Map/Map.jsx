@@ -8,6 +8,7 @@ class Map extends React.Component {
     super(props);
     this.mapDiv = React.createRef();
     this.getMouseCoordinates = this.getMouseCoordinates.bind(this);
+    this.toggleRoundsResult = this.toggleRoundsResult.bind(this);
   }
 
   state = {
@@ -15,6 +16,7 @@ class Map extends React.Component {
     height: 0,
     top: 0,
     left: 0,
+    showRoundsResult: false,
   };
 
   componentDidMount() {
@@ -44,6 +46,12 @@ class Map extends React.Component {
     }
   }
 
+  toggleRoundsResult() {
+    this.setState({
+      showRoundsResult: !this.state.showRoundsResult,
+    });
+  }
+
   render() {
     const {
       splashScreen,
@@ -55,9 +63,13 @@ class Map extends React.Component {
       playedCities,
     } = this.props;
 
+    const { showRoundsResult } = this.state;
+
     return (
       <div ref={this.mapDiv} onClick={this.getMouseCoordinates} className={styles.map}>
-        {pause && <RoundResult real={pause.real} clicked={pause.clicked} />}
+        {pause && !showRoundsResult && (
+          <RoundResult real={pause.real} clicked={pause.clicked} />
+        )}
         {(splashScreen || gameOver) && (
           <Splash
             gameOver={gameOver}
@@ -65,6 +77,8 @@ class Map extends React.Component {
             playAgain={playAgain}
             isScoreSaved={isScoreSaved}
             playedCities={playedCities}
+            showRoundsResult={showRoundsResult}
+            toggleRoundsResult={this.toggleRoundsResult}
             saveScore={this.props.saveScore}
           />
         )}
