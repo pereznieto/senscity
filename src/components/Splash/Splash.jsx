@@ -1,72 +1,65 @@
 import Button from '@material-ui/core/Button';
 import _ from 'lodash';
 import React from 'react';
-import styles from './Splash.module.scss';
-import { difficulties } from '../Game/Game';
-import TopScores from '../TopScores/TopScores';
-import SaveScore from '../SaveScore/SaveScore';
+import useGlobal from '../../store';
+import { difficulties } from '../../utils/city';
 import RoundsResult from '../RoundsResult/RoundsResult';
+import SaveScore from '../SaveScore/SaveScore';
+import TopScores from '../TopScores/TopScores';
+import styles from './Splash.module.scss';
 
-class Splash extends React.Component {
-  render() {
-    const {
-      gameOver,
-      startGame,
-      playAgain,
-      isScoreSaved,
-      saveScore,
-      playedCities,
-      showRoundsResult,
-      toggleRoundsResult,
-    } = this.props;
+const Splash = () => {
+  const [
+    { gameOver, isScoreSaved, playedCities, showRoundsResult },
+    { startGame, restartGame, saveScore, toggleRoundsResult },
+  ] = useGlobal();
 
-    return (
-      <React.Fragment>
-        {gameOver && (
-          <Button
-            variant='contained'
-            color='secondary'
-            size='small'
-            onClick={toggleRoundsResult}
-            className={styles.showOverviewButton}
-          >
-            `{showRoundsResult ? 'Hide' : 'Show'} Overview`
-          </Button>
-        )}
+  return (
+    <React.Fragment>
+      {gameOver && (
+        <Button
+          variant='contained'
+          color='secondary'
+          size='small'
+          onClick={toggleRoundsResult}
+          className={styles.showOverviewButton}
+        >
+          {showRoundsResult ? 'Hide' : 'Show'} Overview
+        </Button>
+      )}
 
-        {gameOver && showRoundsResult && <RoundsResult playedCities={playedCities} />}
+      {gameOver && showRoundsResult && <RoundsResult playedCities={playedCities} />}
 
-        {!showRoundsResult && (
-          <div className={styles.splash}>
-            <div className={styles.title}>Senscity</div>
-            <div className={styles.difficultyText}>
-              Select difficulty to {gameOver ? 'play again' : 'start'}:
-            </div>
-            <div className={styles.buttonWrapper}>
-              {difficulties.map(difficulty => (
-                <Button
-                  key={difficulty}
-                  variant='contained'
-                  color='primary'
-                  size='large'
-                  className={styles.startButton}
-                  onClick={() => {
-                    gameOver ? playAgain(difficulty) : startGame(difficulty);
-                  }}
-                >
-                  {_.capitalize(difficulty)}
-                </Button>
-              ))}
-            </div>
-            {gameOver && !isScoreSaved && (
-              <SaveScore isScoreSaved={isScoreSaved} saveScore={saveScore} />
-            )}
-            {gameOver && isScoreSaved && <TopScores />}
+      {!showRoundsResult && (
+        <div className={styles.splash}>
+          <div className={styles.title}>Senscity</div>
+          <div className={styles.difficultyText}>
+            Select difficulty to {gameOver ? 'play again' : 'start'}:
           </div>
-        )}
-      </React.Fragment>
-    );
-  }
-}
+          <div className={styles.buttonWrapper}>
+            {difficulties.map(difficulty => (
+              <Button
+                key={difficulty}
+                variant='contained'
+                color='primary'
+                size='large'
+                className={styles.startButton}
+                onClick={() => {
+                  gameOver ? restartGame(difficulty) : startGame(difficulty);
+                }}
+              >
+                {_.capitalize(difficulty)}
+              </Button>
+            ))}
+          </div>
+          {gameOver && !isScoreSaved && (
+            <SaveScore isScoreSaved={isScoreSaved} saveScore={saveScore} />
+          )}
+          {gameOver && isScoreSaved && <TopScores />}
+        </div>
+      )}
+    </React.Fragment>
+  );
+};
 
 export default Splash;

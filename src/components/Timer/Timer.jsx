@@ -1,66 +1,44 @@
-import React from "react";
-import styles from "./Timer.module.scss";
+import React, { useEffect, useState } from 'react';
+import useGlobal from '../../store';
+import { useInterval } from '../../utils/hooks';
+import styles from './Timer.module.scss';
 
 export const millisecondsPerTurn = 5000;
+const tickSpeed = 10;
 
-class Timer extends React.Component {
-  constructor(props) {
-    super(props);
-    this.tick = this.tick.bind(this);
-  }
+const Timer = () => {
+  const [timeLeft, setLocalTimeLeft] = useState(millisecondsPerTurn);
+  const [delay, setDelay] = useState(tickSpeed);
+  const [{ isRunning }, { setTimeLeft, endTurn }] = useGlobal();
 
-  state = {
-    timeLeft: millisecondsPerTurn
+  useEffect(() => {
+    if (isRunning) {
+      setLocalTimeLeft(millisecondsPerTurn);
+      setDelay(tickSpeed);
+    } else {
+      setDelay(null);
+    }
+  }, [isRunning]);
+
+  useInterval(() => {
+    if (timeLeft > 0) {
+      setLocalTimeLeft(timeLeft - tickSpeed);
+      setTimeLeft(timeLeft - tickSpeed);
+    } else {
+      endTurn();
+    }
+  }, delay);
+
+  const barStyle = {
+    width: `${((millisecondsPerTurn - timeLeft) * 100) / millisecondsPerTurn}%`,
+    animation: isRunning ? `redden ${millisecondsPerTurn / 1000}s ease-out` : '',
   };
 
-  componentDidMount() {
-    if (this.props.isRunning) {
-      this.interval = setInterval(() => this.tick(), 10);
-    }
-  }
-
-  componentDidUpdate(prevProps) {
-    const { isRunning } = this.props;
-
-    if (prevProps.isRunning !== isRunning) {
-      if (isRunning) {
-        this.setState({ timeLeft: millisecondsPerTurn });
-        this.interval = setInterval(() => this.tick(), 10);
-      } else {
-        clearInterval(this.interval);
-      }
-    }
-  }
-
-  tick() {
-    const { onTick, onEnd } = this.props;
-    const { timeLeft } = this.state;
-    const newTimeLeft = timeLeft - 10;
-
-    if (timeLeft > 0) {
-      this.setState({ timeLeft: newTimeLeft });
-      onTick(newTimeLeft);
-    } else {
-      clearInterval(this.interval);
-      onEnd();
-    }
-  }
-
-  render() {
-    const { timeLeft } = this.state;
-    const { isRunning } = this.props;
-    const width = `${((millisecondsPerTurn - timeLeft) * 100) /
-      millisecondsPerTurn}%`;
-    const animation = isRunning
-      ? `redden ${millisecondsPerTurn / 1000}s ease-out`
-      : "";
-
-    return (
-      <div className={styles.timer}>
-        <div className={styles.time} style={{ width, animation }} />
-      </div>
-    );
-  }
-}
+  return (
+    <div className={styles.timer}>
+      <div className={styles.time} style={barStyle} />
+    </div>
+  );
+};
 
 export default Timer;
