@@ -16,7 +16,7 @@ import Map from '../Map/Map';
 import Timer from '../Timer/Timer';
 import styles from './Game.module.scss';
 
-const citiesPerGame = 10;
+const citiesPerGame = 5;
 
 export const difficulties = ['easy', 'normal', 'hard'];
 
@@ -42,6 +42,13 @@ const initialState = {
   pause: null,
   isRunning: false,
   isScoreSaved: false,
+};
+
+const getRealCoordinates = (mapSize, currentCity) => {
+  return {
+    x: longitudeToX(mapSize.width, currentCity.longitude),
+    y: latitudeToY(mapSize.height, currentCity.latitude),
+  };
 };
 
 class Game extends React.Component {
@@ -124,6 +131,7 @@ class Game extends React.Component {
         ...currentCity,
         clicked,
         distance,
+        real: getRealCoordinates(mapSize, currentCity),
         score: turnScore,
       },
     ];
@@ -141,10 +149,7 @@ class Game extends React.Component {
       score: newScore,
       pause: {
         city: getDisplayName(currentCity, mode),
-        real: {
-          x: longitudeToX(mapSize.width, currentCity.longitude),
-          y: latitudeToY(mapSize.height, currentCity.latitude),
-        },
+        real: getRealCoordinates(mapSize, currentCity),
         clicked,
       },
     });
@@ -167,6 +172,7 @@ class Game extends React.Component {
       isRunning,
       mode,
       isScoreSaved,
+      playedCities,
     } = this.state;
 
     return (
@@ -181,6 +187,7 @@ class Game extends React.Component {
           updateClickCoordinates={this.endTurn}
           saveScore={this.saveScore}
           isScoreSaved={isScoreSaved}
+          playedCities={playedCities}
         />
         <div className={styles.gameMenu}>
           {!splashScreen && (

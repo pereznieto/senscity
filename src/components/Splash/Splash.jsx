@@ -5,8 +5,16 @@ import styles from './Splash.module.scss';
 import { difficulties } from '../Game/Game';
 import TopScores from '../TopScores/TopScores';
 import SaveScore from '../SaveScore/SaveScore';
+import RoundsResult from '../RoundsResult/RoundsResult';
 
-const Splash = ({ gameOver, startGame, playAgain, isScoreSaved, saveScore }) => (
+const Splash = ({
+  gameOver,
+  startGame,
+  playAgain,
+  isScoreSaved,
+  saveScore,
+  playedCities,
+}) => (
   <div className={styles.splash}>
     <div className={styles.title}>Senscity</div>
     <div className={styles.difficultyText}>
@@ -28,6 +36,7 @@ const Splash = ({ gameOver, startGame, playAgain, isScoreSaved, saveScore }) => 
         </Button>
       ))}
     </div>
+    {gameOver && <RoundsResult playedCities={playedCities} />}
     {gameOver && !isScoreSaved && (
       <SaveScore isScoreSaved={isScoreSaved} saveScore={saveScore} />
     )}

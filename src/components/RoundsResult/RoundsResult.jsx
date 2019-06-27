@@ -1,9 +1,16 @@
 import React from 'react';
-import RoundResult from 'components/RoundResult/RoundResult';
+import styles from './RoundsResult.module.scss';
+import RoundResult from '../RoundResult/RoundResult';
 
-const RoundsResult = ({ roundHistory, playedCities }) =>
-  playedCities.map((playedCity, index) => {
-    return <RoundResult real={playedCity} clicked={roundHistory[index]} />;
-  });
+const RoundsResult = ({ playedCities }) => {
+  return (
+    <div className={styles.roundsResult}>
+      {playedCities.map(city => {
+        const { real, clicked } = city;
+        return <RoundResult key={city.id} real={real} clicked={clicked} />;
+      })}
+    </div>
+  );
+};
 
 export default RoundsResult;

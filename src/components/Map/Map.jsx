@@ -52,6 +52,7 @@ class Map extends React.Component {
       gameOver,
       playAgain,
       isScoreSaved,
+      playedCities,
     } = this.props;
 
     return (
@@ -63,6 +64,7 @@ class Map extends React.Component {
             startGame={startGame}
             playAgain={playAgain}
             isScoreSaved={isScoreSaved}
+            playedCities={playedCities}
             saveScore={this.props.saveScore}
           />
         )}
