@@ -46,7 +46,6 @@ export const endTurn = (store, clickedCoordinate) => {
     ? getDistanceBetweenClickAndCity(clickedCoordinate, mapSize, currentCity)
     : null;
   const turnScore = calculateTurnScore(distance, timeLeft);
-  const newScore = distance ? score + turnScore : score;
   const clicked = clickedCoordinate
     ? {
         x: clickedCoordinate.x,
@@ -74,9 +73,10 @@ export const endTurn = (store, clickedCoordinate) => {
     currentCity: newCity,
     gameOver,
     distance,
-    score: newScore,
+    score: score + turnScore,
     pause: {
       city: getDisplayName(currentCity, mode),
+      score: turnScore,
       real: getRealCoordinates(mapSize, currentCity),
       clicked,
     },
@@ -91,4 +91,8 @@ export const saveScore = (store, name) => {
 
 export const toggleRoundsResult = store => {
   store.setState({ showRoundsResult: !store.state.showRoundsResult });
+};
+
+export const updateMissedSummary = (store, city) => {
+  store.setState({ missedSummary: city });
 };

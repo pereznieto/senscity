@@ -1,6 +1,7 @@
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import cx from 'classnames';
+import _ from 'lodash';
 import React from 'react';
 import useGlobal from '../../store';
 import { getDisplayName } from '../../utils/city';
@@ -8,9 +9,15 @@ import styles from './Controls.module.scss';
 
 const Controls = () => {
   const [
-    { mode, score, pause, gameOver, distance, splashScreen, currentCity },
+    { mode, score, pause, gameOver, distance, splashScreen, currentCity, missedSummary },
     { nextCity },
   ] = useGlobal();
+
+  const hasMissedSummary = !_.isEmpty(missedSummary);
+  const getCityToDisplay = () =>
+    hasMissedSummary ? `${missedSummary.name}, ${missedSummary.country}` : pause.city;
+  const distanceToDisplay = hasMissedSummary ? missedSummary.distance : distance;
+  const getScoreToDisplay = () => (hasMissedSummary ? missedSummary.score : pause.score);
 
   return (
     <Grid container spacing={2} className={styles.controls}>
@@ -42,14 +49,17 @@ const Controls = () => {
           <Grid item sm={4}>
             <div>
               <p>
-                You missed <strong>{pause.city} </strong>
-                {distance ? (
+                You missed <strong>{getCityToDisplay()} </strong>
+                {distanceToDisplay ? (
                   <span>
-                    by<strong> {distance.toFixed(2)} km</strong>
+                    by<strong> {distanceToDisplay.toFixed(2)} km</strong>
                   </span>
                 ) : (
                   'completely!'
                 )}
+              </p>
+              <p>
+                (Score: <strong>{getScoreToDisplay()}</strong>)
               </p>
             </div>
           </Grid>

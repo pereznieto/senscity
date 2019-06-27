@@ -16,6 +16,7 @@ export const initialState = {
   isRunning: false,
   isScoreSaved: false,
   splashScreen: true,
+  missedSummary: {},
 };
 
 const useGlobal = useGlobalHook(React, initialState, actions);
