@@ -6,32 +6,36 @@
   .scoresText {
     font-size: 25px;
     margin: 0 0 10px;
-  }
-
-  .scoresText {
     font-weight: 700;
   }
 
   .topScores {
-    text-align: left;
+    display: flex;
   }
 
-  .score {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
+  .difficulty {
+    margin: 0 20px;
+  }
+
+  .difficultyTitle {
+    margin-bottom: 20px;
   }
 
   .scoreItem {
-    min-width: 35px;
+    margin: 10px 0;
+    text-align: right;
   }
 
-  .nameItem {
-    min-width: 150px;
-    padding: 0 10px;
+  .name,
+  .score {
+    font-weight: 700;
   }
 
-  .modeItem {
-    min-width: 65px;
+  .name {
+    margin-right: 20px;
+  }
+
+  .score {
+    font-family: 'Courier New', Courier, monospace;
   }
 }

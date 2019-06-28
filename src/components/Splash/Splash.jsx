@@ -12,7 +12,7 @@ import styles from './Splash.module.scss';
 const Splash = () => {
   const [
     { gameOver, isScoreSaved, playedCities, showRoundsResult },
-    { startGame, restartGame, saveScore, toggleRoundsResult },
+    { startGame, restartGame, toggleRoundsResult },
   ] = useGlobal();
 
   return (
@@ -36,7 +36,7 @@ const Splash = () => {
       >
         <div className={styles.title}>Senscity</div>
         <div className={styles.difficultyText}>
-          Select difficulty to {gameOver ? 'play again' : 'start'}:
+          Select difficulty to {gameOver ? 'play again' : 'start'}
         </div>
         <div className={styles.buttonWrapper}>
           {difficulties.map(difficulty => (
@@ -54,9 +54,7 @@ const Splash = () => {
             </Button>
           ))}
         </div>
-        {gameOver && !isScoreSaved && (
-          <SaveScore isScoreSaved={isScoreSaved} saveScore={saveScore} />
-        )}
+        {gameOver && !isScoreSaved && <SaveScore />}
         {gameOver && isScoreSaved && <TopScores />}
       </div>
     </React.Fragment>

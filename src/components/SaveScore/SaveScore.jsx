@@ -2,8 +2,10 @@ import { Button, TextField } from '@material-ui/core';
 import _ from 'lodash';
 import React, { useState } from 'react';
 import styles from './SaveScore.module.scss';
+import useGlobal from '../../store';
 
-const SaveScore = ({ saveScore, isScoreSaved }) => {
+const SaveScore = () => {
+  const [{ isScoreSaved }, { saveScore }] = useGlobal();
   const [name, setName] = useState('');
   const saveScoreToLocalStorage = event => {
     event.preventDefault();

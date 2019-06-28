@@ -85,8 +85,8 @@ export const endTurn = (store, clickedCoordinate) => {
 
 export const saveScore = (store, name) => {
   const { score, mode } = store.state;
-  store.setState({ isScoreSaved: true });
   saveScoreLocally({ name, score, mode });
+  store.setState({ isScoreSaved: true });
 };
 
 export const toggleRoundsResult = store => {
