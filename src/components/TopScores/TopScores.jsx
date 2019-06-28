@@ -7,6 +7,11 @@ import styles from './TopScores.module.scss';
 
 const TopScores = () => {
   const scores = getScores();
+
+  if (_.isEmpty(scores)) {
+    return null;
+  }
+
   const groupedScores = difficulties.map(difficulty => ({
     difficulty,
     scores: scores
