@@ -54,6 +54,7 @@ const Splash = () => {
             </Button>
           ))}
         </div>
+        {!gameOver && <TopScores />}
         {gameOver && !isScoreSaved && <SaveScore />}
         {gameOver && isScoreSaved && <TopScores />}
       </div>

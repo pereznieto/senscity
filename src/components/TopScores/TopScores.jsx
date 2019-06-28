@@ -1,8 +1,9 @@
+import cx from 'classnames';
 import _ from 'lodash';
 import React from 'react';
+import { difficulties } from '../../utils/city';
 import { getScores } from '../../utils/storage';
 import styles from './TopScores.module.scss';
-import { difficulties } from '../../utils/city';
 
 const TopScores = () => {
   const scores = getScores();
@@ -13,7 +14,18 @@ const TopScores = () => {
       .sort((a, b) => (a.score > b.score ? -1 : 1)),
   }));
 
-  console.log('groupedScores: ', groupedScores);
+  const getTrophy = id => {
+    switch (id) {
+      case 0:
+        return ' 🏆';
+      case 1:
+        return ' 🥈';
+      case 2:
+        return ' 🥉';
+      default:
+        return '';
+    }
+  };
 
   return (
     <div className={styles.scores}>
@@ -22,9 +34,15 @@ const TopScores = () => {
         {groupedScores.map(({ difficulty, scores }) => (
           <div key={difficulty} className={styles.difficulty}>
             <h3 className={styles.difficultyTitle}>{_.capitalize(difficulty)}</h3>
-            {scores.map(({ name, score }) => (
-              <div key={`${name}-${score}`} className={styles.scoreItem}>
-                <span className={styles.name}>{name}:</span>
+            {scores.map(({ name, score }, id) => (
+              <div
+                key={`${name}-${score}`}
+                className={cx(styles.scoreItem, { [styles.topDawg]: id === 0 })}
+              >
+                <span className={styles.name}>
+                  {name}
+                  {getTrophy(id)}
+                </span>
                 <span className={styles.score}>{score}</span>
               </div>
             ))}
