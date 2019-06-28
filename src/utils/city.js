@@ -4,7 +4,8 @@ import { popularCities } from '../cities/popularCities';
 import { latitudeToY, longitudeToX } from './distance';
 
 export const citiesPerGame = 10; // Minimum 3
-export const difficulties = ['easy', 'normal', 'hard'];
+export const Difficulty = { Easy: 'easy', Normal: 'normal', Hard: 'hard' };
+export const difficulties = _.values(Difficulty);
 
 const getNumberOfEasyCitiesForNormal = total => (total < 6 ? 1 : 3);
 
@@ -14,12 +15,12 @@ export const getCitiesToPlay = difficulty => {
     { ...getCity(difficulty)(cities.map(({ id }) => id)), difficulty },
   ];
   const emptyArray = _.fill(Array(citiesPerGame), {});
-  if (difficulty === difficulties[1]) {
+  if (difficulty === Difficulty.Normal) {
     return emptyArray.reduce((cities, current, index) => {
       if (index < getNumberOfEasyCitiesForNormal(citiesPerGame)) {
-        return getNewCity(cities, difficulties[0]);
+        return getNewCity(cities, Difficulty.Easy);
       } else if (index < citiesPerGame - 1) {
-        return getNewCity(cities, difficulties[1]);
+        return getNewCity(cities, Difficulty.Normal);
       } else {
         return getNewCity(cities, 'harder');
       }
@@ -31,11 +32,11 @@ export const getCitiesToPlay = difficulty => {
 
 export const getCity = difficulty => {
   switch (difficulty) {
-    case difficulties[0]:
+    case Difficulty.Easy:
       return getRandomPopularCity;
-    case difficulties[1]:
+    case Difficulty.Normal:
       return getRandomCity(1000000);
-    case difficulties[2]:
+    case Difficulty.Hard:
       return getRandomCity(100000);
     case 'harder':
       return getRandomCity(100000, 1000000);
@@ -78,7 +79,7 @@ export const getCities = rawCities =>
 
 export const getDisplayName = ({ name, country }, difficulty) => {
   if (name) {
-    if (difficulty === difficulties[0] || isCityNameDuplicate(name)) {
+    if (difficulty === Difficulty.Easy || isCityNameDuplicate(name)) {
       return `${name}, ${country}`;
     }
     return name;
