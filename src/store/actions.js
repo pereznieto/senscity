@@ -1,7 +1,7 @@
 import { initialState } from '.';
 import {
   citiesPerGame,
-  getCity,
+  getCitiesToPlay,
   getDisplayName,
   getRealCoordinates,
 } from '../utils/city';
@@ -17,31 +17,36 @@ export const setTimeLeft = (store, timeLeft) => {
   store.setState({ timeLeft });
 };
 
-export const startGame = (store, mode) => {
+const newGame = (store, mode, stateOverride) => {
+  const citiesToPlay = getCitiesToPlay(mode);
   store.setState({
+    ...stateOverride,
     mode,
     isRunning: true,
     splashScreen: false,
-    currentCity: getCity(mode)([]),
+    citiesToPlay,
+    currentCity: citiesToPlay[0],
   });
 };
 
-export const restartGame = (store, mode) => {
-  store.setState({
-    ...initialState,
-    mode,
-    isRunning: true,
-    splashScreen: false,
-    currentCity: getCity(mode)([]),
-  });
-};
+export const startGame = (store, mode) => newGame(store, mode, []);
+
+export const restartGame = (store, mode) => newGame(store, mode, initialState);
 
 export const nextCity = store => {
   store.setState({ pause: null, isRunning: true });
 };
 
 export const endTurn = (store, clickedCoordinate) => {
-  const { playedCities, currentCity, mapSize, score, timeLeft, mode } = store.state;
+  const {
+    playedCities,
+    citiesToPlay,
+    currentCity,
+    mapSize,
+    score,
+    timeLeft,
+    mode,
+  } = store.state;
   const distance = clickedCoordinate
     ? getDistanceBetweenClickAndCity(clickedCoordinate, mapSize, currentCity)
     : null;
@@ -60,17 +65,17 @@ export const endTurn = (store, clickedCoordinate) => {
       distance,
       real: getRealCoordinates(mapSize, currentCity),
       score: turnScore,
+      timeLeft,
     },
   ];
 
-  const newCity = getCity(mode)(newPlayedCities.map(({ id }) => id));
   const gameOver = newPlayedCities.length === citiesPerGame;
 
   store.setState({
     isRunning: false,
     clickedCoordinate,
     playedCities: newPlayedCities,
-    currentCity: newCity,
+    currentCity: citiesToPlay[newPlayedCities.length],
     gameOver,
     distance,
     score: score + turnScore,
@@ -79,6 +84,7 @@ export const endTurn = (store, clickedCoordinate) => {
       score: turnScore,
       real: getRealCoordinates(mapSize, currentCity),
       clicked,
+      timeLeft,
     },
   });
 };

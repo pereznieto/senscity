@@ -9,13 +9,13 @@ const Game = () => {
   const [{ splashScreen }] = useGlobal();
 
   return (
-    <div>
+    <React.Fragment>
       <Map />
       <div className={styles.gameMenu}>
         {!splashScreen && <Timer />}
         <Controls />
       </div>
-    </div>
+    </React.Fragment>
   );
 };
 
