@@ -17,7 +17,6 @@ const Controls = () => {
   const getCityToDisplay = () =>
     hasMissedSummary ? `${missedSummary.name}, ${missedSummary.country}` : pause.city;
   const distanceToDisplay = hasMissedSummary ? missedSummary.distance : distance;
-  const getScoreToDisplay = () => (hasMissedSummary ? missedSummary.score : pause.score);
 
   return (
     <Grid container spacing={2} className={styles.controls}>
@@ -57,9 +56,6 @@ const Controls = () => {
                 ) : (
                   'completely!'
                 )}
-              </p>
-              <p>
-                (Score: <strong>{getScoreToDisplay()}</strong>)
               </p>
             </div>
           </Grid>
