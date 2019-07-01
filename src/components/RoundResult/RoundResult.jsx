@@ -24,7 +24,7 @@ const getStylePositionForScorePopup = (a, b) => {
 };
 
 const RoundResult = ({ city, city: { real, clicked }, score }) => {
-  const { updateMissedSummary } = useGlobal()[1];
+  const [{ gameOver }, { updateMissedSummary }] = useGlobal();
 
   const updateResultSummary = () => {
     city.country && updateMissedSummary(city);
@@ -37,12 +37,14 @@ const RoundResult = ({ city, city: { real, clicked }, score }) => {
       </Tooltip>
       {clicked && (
         <React.Fragment>
-          <div
-            className={styles.roundScore}
-            style={getStylePositionForScorePopup(real, clicked)}
-          >
-            {score}
-          </div>
+          {!gameOver && (
+            <div
+              className={styles.roundScore}
+              style={getStylePositionForScorePopup(real, clicked)}
+            >
+              {score}
+            </div>
+          )}
           <div className={styles.clicked} style={getStyle(clicked)} />
           <div className={styles.line} style={getLineBetweenTwoPoints(real, clicked)} />
         </React.Fragment>
