@@ -41,6 +41,7 @@ const Map = () => {
         <div className={styles.pause}>
           <RoundResult
             city={{ real: pause.real, clicked: pause.clicked, name: pause.city }}
+            score={pause.score}
           />
         </div>
       )}
