@@ -4,12 +4,22 @@ import cx from 'classnames';
 import _ from 'lodash';
 import React from 'react';
 import useGlobal from '../../store';
-import { getDisplayName } from '../../utils/city';
+import { citiesPerGame, getDisplayName } from '../../utils/city';
 import styles from './Controls.module.scss';
 
 const Controls = () => {
   const [
-    { mode, score, pause, gameOver, distance, splashScreen, currentCity, missedSummary },
+    {
+      mode,
+      score,
+      pause,
+      gameOver,
+      distance,
+      splashScreen,
+      currentCity,
+      missedSummary,
+      round,
+    },
     { nextCity },
   ] = useGlobal();
 
@@ -17,6 +27,7 @@ const Controls = () => {
   const getCityToDisplay = () =>
     hasMissedSummary ? `${missedSummary.name}, ${missedSummary.country}` : pause.city;
   const distanceToDisplay = hasMissedSummary ? missedSummary.distance : distance;
+  const roundToDisplay = hasMissedSummary ? missedSummary.round : round;
 
   return (
     <Grid container spacing={2} className={styles.controls}>
@@ -34,39 +45,38 @@ const Controls = () => {
           </div>
         </Grid>
       )}
-      {!splashScreen && !pause && currentCity && (
-        <Grid item sm={4}>
+      <Grid item sm={4}>
+        <p className={styles.round}>
+          Round <strong>{roundToDisplay}</strong> of <strong>{citiesPerGame}</strong>
+        </p>
+        {!splashScreen && !pause && currentCity && (
+          <p>
+            Find: <strong>{getDisplayName(currentCity, mode)}</strong>
+          </p>
+        )}
+        {pause && (
           <div>
             <p>
-              Find: <strong>{getDisplayName(currentCity, mode)}</strong>
+              You missed <strong>{getCityToDisplay()}</strong>
+            </p>
+            <p>
+              {distanceToDisplay ? (
+                <span>
+                  by<strong> {distanceToDisplay.toFixed(2)}</strong> km
+                </span>
+              ) : (
+                <span>completely!</span>
+              )}
             </p>
           </div>
+        )}
+      </Grid>
+      {pause && !gameOver && (
+        <Grid item sm={4}>
+          <Button variant='contained' color='primary' size='large' onClick={nextCity}>
+            Next city
+          </Button>
         </Grid>
-      )}
-      {pause && (
-        <React.Fragment>
-          <Grid item sm={4}>
-            <div>
-              <p>
-                You missed <strong>{getCityToDisplay()} </strong>
-                {distanceToDisplay ? (
-                  <span>
-                    by<strong> {distanceToDisplay.toFixed(2)} km</strong>
-                  </span>
-                ) : (
-                  'completely!'
-                )}
-              </p>
-            </div>
-          </Grid>
-          <Grid item sm={4}>
-            {!gameOver && (
-              <Button variant='contained' color='primary' size='large' onClick={nextCity}>
-                Next city
-              </Button>
-            )}
-          </Grid>
-        </React.Fragment>
       )}
     </Grid>
   );

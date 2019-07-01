@@ -1,6 +1,13 @@
 @import '../../mixins';
 
 .controls {
+  .round {
+    font-size: 20px;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+  }
+
   .score {
     display: inline-block;
     min-width: 181px;

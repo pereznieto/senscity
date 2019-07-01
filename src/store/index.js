@@ -7,6 +7,7 @@ export const initialState = {
     x: null,
     y: null,
   },
+  round: 1,
   currentCity: null,
   playedCities: [],
   gameOver: false,

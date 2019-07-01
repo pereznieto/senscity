@@ -34,7 +34,7 @@ export const startGame = (store, mode) => newGame(store, mode, []);
 export const restartGame = (store, mode) => newGame(store, mode, initialState);
 
 export const nextCity = store => {
-  store.setState({ pause: null, isRunning: true });
+  store.setState({ pause: null, isRunning: true, round: store.state.round + 1 });
 };
 
 export const endTurn = (store, clickedCoordinate) => {
@@ -46,6 +46,7 @@ export const endTurn = (store, clickedCoordinate) => {
     score,
     timeLeft,
     mode,
+    round,
   } = store.state;
   const distance = clickedCoordinate
     ? getDistanceBetweenClickAndCity(clickedCoordinate, mapSize, currentCity)
@@ -66,6 +67,7 @@ export const endTurn = (store, clickedCoordinate) => {
       real: getRealCoordinates(mapSize, currentCity),
       score: turnScore,
       timeLeft,
+      round,
     },
   ];
 
