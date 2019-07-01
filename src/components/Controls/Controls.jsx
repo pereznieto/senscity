@@ -31,10 +31,8 @@ const Controls = () => {
   const statsToDisplay = hasMissedSummary && (
     <div>
       <p>
-        Time left: <strong>{(missedSummary.timeLeft / 1000).toFixed(2)}</strong>s
-      </p>
-      <p>
-        Score: <strong>{missedSummary.score}</strong>
+        Time left: <strong>{(missedSummary.timeLeft / 1000).toFixed(2)}</strong>s | Score:
+        <strong> {missedSummary.score}</strong>
       </p>
     </div>
   );
@@ -56,12 +54,14 @@ const Controls = () => {
         </Grid>
       )}
       <Grid item sm={4}>
-        <p className={styles.round}>
-          Round <strong>{roundToDisplay}</strong> of <strong>{citiesPerGame}</strong>
-        </p>
+        {!splashScreen && (
+          <p className={styles.round}>
+            Round <strong>{roundToDisplay}</strong> of <strong>{citiesPerGame}</strong>
+          </p>
+        )}
         {!splashScreen && !pause && currentCity && (
           <p>
-            Find: <strong>{getDisplayName(currentCity, mode)}</strong>
+            Find <strong>{getDisplayName(currentCity, mode)}</strong>
           </p>
         )}
         {pause && (
