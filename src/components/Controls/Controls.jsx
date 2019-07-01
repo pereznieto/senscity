@@ -28,6 +28,16 @@ const Controls = () => {
     hasMissedSummary ? `${missedSummary.name}, ${missedSummary.country}` : pause.city;
   const distanceToDisplay = hasMissedSummary ? missedSummary.distance : distance;
   const roundToDisplay = hasMissedSummary ? missedSummary.round : round;
+  const statsToDisplay = hasMissedSummary && (
+    <div>
+      <p>
+        Time left: <strong>{(missedSummary.timeLeft / 1000).toFixed(2)}</strong>s
+      </p>
+      <p>
+        Score: <strong>{missedSummary.score}</strong>
+      </p>
+    </div>
+  );
 
   return (
     <Grid container spacing={2} className={styles.controls}>
@@ -68,6 +78,7 @@ const Controls = () => {
                 <span>completely!</span>
               )}
             </p>
+            {statsToDisplay}
           </div>
         )}
       </Grid>
