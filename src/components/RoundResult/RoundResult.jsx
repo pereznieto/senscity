@@ -4,7 +4,7 @@ import { getLineBetweenTwoPoints } from '../../utils/distance';
 import styles from './RoundResult.module.scss';
 import Tooltip from '@material-ui/core/Tooltip';
 
-const defaultScorePopupOffset = 50;
+const defaultOffsetRatio = 0.05;
 
 const getStyle = coordinates => ({
   top: `${coordinates.y - 4}px`,
@@ -13,10 +13,13 @@ const getStyle = coordinates => ({
 
 const getStylePositionForScorePopup = (a, b) => {
   const xDiff = a.x - b.x;
-  const xOffset = xDiff > 0 ? defaultScorePopupOffset : -defaultScorePopupOffset;
+  const yDiff = a.y - b.y;
+  const xBaseOffset = xDiff * defaultOffsetRatio;
+  const xOffset = xDiff > 0 ? xBaseOffset : -xBaseOffset;
+  const yOffset = yDiff * defaultOffsetRatio;
   return {
     left: `${(a.x + b.x) / 2 + xOffset}px`,
-    top: `${(a.y + b.y) / 2 + defaultScorePopupOffset}px`,
+    top: `${(a.y + b.y) / 2 + yOffset}px`,
   };
 };
 
