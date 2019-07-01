@@ -43,7 +43,18 @@
   position: absolute;
   opacity: 0;
   z-index: 3;
-  animation: fadeIn 400ms forwards, fadeOut 800ms 1.2s forwards;
+  animation: fadeIn 200ms forwards, bounce 600ms 200ms 4 both,
+    fadeOut 800ms 800ms forwards;
+}
+
+@keyframes bounce {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
 }
 
 @keyframes fadeIn {
