@@ -1,11 +1,6 @@
 import { initialState } from '.';
-import {
-  citiesPerGame,
-  getCitiesToPlay,
-  getDisplayName,
-  getRealCoordinates,
-} from '../utils/city';
-import { getDistanceBetweenClickAndCity } from '../utils/distance';
+import { citiesPerGame, getCitiesToPlay, getDisplayName } from '../utils/city';
+import { getDistanceBetweenClickAndCity, getRealCoordinates } from '../utils/distance';
 import { calculateTurnScore } from '../utils/score';
 import { saveScoreLocally } from '../utils/storage';
 

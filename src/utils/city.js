@@ -1,7 +1,6 @@
 import _ from 'lodash';
 import { allCities } from '../cities/allCities';
 import { popularCities } from '../cities/popularCities';
-import { latitudeToY, longitudeToX } from './distance';
 
 export const citiesPerGame = 10; // Minimum 3
 export const Difficulty = { Easy: 'easy', Normal: 'normal', Hard: 'hard' };
@@ -92,8 +91,3 @@ export const isCityNameDuplicate = cityName =>
       current.name === cityName ? [...accumulator, current] : accumulator,
     []
   ).length > 1;
-
-export const getRealCoordinates = (mapSize, currentCity) => ({
-  x: longitudeToX(mapSize.width, currentCity.longitude),
-  y: latitudeToY(mapSize.height, currentCity.latitude),
-});

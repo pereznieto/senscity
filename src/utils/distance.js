@@ -10,24 +10,29 @@ export const getDistanceBetweenClickAndCity = (
     xToLongitude(width, x)
   );
 
-const xToLongitude = (width, x) => {
-  const mapGreenwich = width / 2;
-  return ((x - mapGreenwich) * 180) / mapGreenwich;
-};
+export const getRealCoordinates = (mapSize, currentCity) => ({
+  x: longitudeToX(mapSize.width, currentCity.longitude),
+  y: latitudeToY(mapSize.height, currentCity.latitude),
+});
 
 const yToLatitude = (height, y) => {
   const mapEquator = height * (9 / 15);
   return ((mapEquator - y) * 90) / mapEquator;
 };
 
-export const longitudeToX = (width, longitude) => {
+const xToLongitude = (width, x) => {
   const mapGreenwich = width / 2;
-  return parseInt((longitude * mapGreenwich) / 180 + mapGreenwich);
+  return ((x - mapGreenwich) * 180) / mapGreenwich;
 };
 
-export const latitudeToY = (height, latitude) => {
+const latitudeToY = (height, latitude) => {
   const mapEquator = height * (9 / 15);
   return parseInt(mapEquator - (latitude * mapEquator) / 90);
+};
+
+const longitudeToX = (width, longitude) => {
+  const mapGreenwich = width / 2;
+  return parseInt((longitude * mapGreenwich) / 180 + mapGreenwich);
 };
 
 const getDistanceBetweenTwoCoordinates = (lat1, lon1, lat2, lon2) => {
@@ -41,8 +46,7 @@ const getDistanceBetweenTwoCoordinates = (lat1, lon1, lat2, lon2) => {
       Math.sqrt(
         0.5 -
           cos((lat2 - lat1) * rad) / 2 +
-          (cos(lat1 * rad) * cos(lat2 * rad) * (1 - cos((lon2 - lon1) * rad))) /
-            2
+          (cos(lat1 * rad) * cos(lat2 * rad) * (1 - cos((lon2 - lon1) * rad))) / 2
       )
     )
   );
@@ -59,7 +63,7 @@ export const getLineBetweenTwoPoints = ({ x: x1, y: y1 }, { x: x2, y: y2 }) => {
     height: `${height}px`,
     left: `${centre.x}px`,
     top: `${centre.y}px`,
-    transform: `rotate(${angle}deg)`
+    transform: `rotate(${angle}deg)`,
   };
 };
 
@@ -71,5 +75,5 @@ const getAngleBetweenTwoPoints = (x1, y1, x2, y2) =>
 
 const getCentreBetweenTwoPoints = (x1, y1, x2, y2, length, thickness) => ({
   x: (x1 + x2) / 2 - length / 2,
-  y: (y1 + y2) / 2 - thickness / 2
+  y: (y1 + y2) / 2 - thickness / 2,
 });
