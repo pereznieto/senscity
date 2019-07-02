@@ -7,7 +7,7 @@ import useGlobal from '../../store';
 const SaveScore = () => {
   const [{ isScoreSaved }, { saveScore }] = useGlobal();
   const [name, setName] = useState('');
-  const saveScoreToLocalStorage = event => {
+  const saveNewScore = event => {
     event.preventDefault();
     saveScore(name);
   };
@@ -30,7 +30,7 @@ const SaveScore = () => {
           variant='contained'
           color='secondary'
           size='large'
-          onClick={saveScoreToLocalStorage}
+          onClick={saveNewScore}
           className={styles.saveButton}
           disabled={isScoreSaved}
         >

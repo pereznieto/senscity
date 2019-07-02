@@ -2,7 +2,7 @@ import { initialState } from '.';
 import { citiesPerGame, getCitiesToPlay, getDisplayName } from '../utils/city';
 import { getDistanceBetweenClickAndCity, getRealCoordinates } from '../utils/distance';
 import { calculateTurnScore } from '../utils/score';
-import { saveScoreLocally } from '../utils/storage';
+import { getScoresFromDatabase, saveScoreToDatabase } from '../utils/storage';
 
 export const updateMapSize = (store, mapSize) => {
   store.setState({ mapSize });
@@ -88,8 +88,15 @@ export const endTurn = (store, clickedCoordinate) => {
 
 export const saveScore = (store, name) => {
   const { score, mode, playedCities } = store.state;
-  saveScoreLocally({ name, score, mode, playedCities });
-  store.setState({ isScoreSaved: true });
+  const newScore = { name, score, mode, playedCities };
+  saveScoreToDatabase(newScore);
+  store.setState({ isScoreSaved: true, scores: [...store.state.scores, newScore] });
+};
+
+export const getScores = store => {
+  getScoresFromDatabase().then(scores => {
+    store.setState({ scores });
+  });
 };
 
 export const toggleRoundsResult = store => {

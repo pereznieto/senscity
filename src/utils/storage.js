@@ -1,7 +1,15 @@
-export const saveScoreLocally = score => {
-  const currentScores = localStorage.getItem('scores');
-  const newScores = currentScores ? [...JSON.parse(currentScores), score] : [score];
-  localStorage.setItem('scores', JSON.stringify(newScores));
+import Axios from 'axios';
+
+export const saveScoreToDatabase = score => {
+  Axios.post(
+    'https://iye014hoi0.execute-api.eu-west-2.amazonaws.com/default/saveScore',
+    score
+  );
 };
 
-export const getScores = () => JSON.parse(localStorage.getItem('scores')) || [];
+export async function getScoresFromDatabase() {
+  const response = await Axios.get(
+    'https://bq9o0r65lj.execute-api.eu-west-2.amazonaws.com/default/getScores'
+  );
+  return response.data.Items;
+}

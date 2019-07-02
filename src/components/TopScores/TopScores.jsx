@@ -1,15 +1,17 @@
+import CircularProgress from '@material-ui/core/CircularProgress';
 import cx from 'classnames';
 import _ from 'lodash';
 import React from 'react';
+import useGlobal from '../../store';
 import { difficulties } from '../../utils/city';
-import { getScores } from '../../utils/storage';
 import styles from './TopScores.module.scss';
 
 const TopScores = () => {
-  const scores = getScores();
+  const [{ scores }, { getScores }] = useGlobal();
 
   if (_.isEmpty(scores)) {
-    return null;
+    getScores();
+    return <CircularProgress className={styles.loading} />;
   }
 
   const groupedScores = difficulties.map(difficulty => ({
@@ -34,7 +36,7 @@ const TopScores = () => {
 
   return (
     <div className={styles.scores}>
-      <p className={styles.scoresText}>Top scores</p>
+      <p className={styles.scoresText}>Top scores globally</p>
       <div className={styles.topScores}>
         {groupedScores.map(({ difficulty, scores }) => (
           <div key={difficulty} className={styles.difficulty}>

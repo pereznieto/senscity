@@ -2,8 +2,10 @@
 
 ## The most beautiful game
 
-### Future stuff
+### Pending stuff
 
+- 🔐 Make API calls safer (CORS) and better (lambda code)
+- 🐛 Sometimes top scores clear when new score is saved
 - 📜 Instructions
 - 🎷 Game music
 - 📱 Mobile responsiveness
@@ -17,11 +19,11 @@
 - ~~🙈 Score to pop up from line~~
 - ~~🏏 Scoreboard displayed in 3 columns sorted by difficulty~~
 - 👨‍💻 General TD and code clean-up
-- 🐛 Unit tests
+- 👌🏼 Unit tests
 
 #### Potential 'microservices'
 
-- 🗺 Cities service (city database and selection)
+- ~~🏆 Score service (calculate turn scores and maintain list of global top scores)~~
 - 🤺 Battle service (make real-time peer-to-peer battles possible)
-- 🏆 Score service (calculate turn scores and maintain list of global top scores)
+- 🗺 Cities service (city database and selection)
 - 📊 Analytics service (i.e. save average error distance per city, to select cities based on real user behaviour rather than arbitrary lists)
