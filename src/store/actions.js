@@ -87,8 +87,8 @@ export const endTurn = (store, clickedCoordinate) => {
 };
 
 export const saveScore = (store, name) => {
-  const { score, mode } = store.state;
-  saveScoreLocally({ name, score, mode });
+  const { score, mode, playedCities } = store.state;
+  saveScoreLocally({ name, score, mode, playedCities });
   store.setState({ isScoreSaved: true });
 };
 
