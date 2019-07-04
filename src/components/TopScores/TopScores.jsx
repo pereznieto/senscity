@@ -37,7 +37,15 @@ const TopScores = () => {
 
   return (
     <Paper className={styles.scores}>
-      <p className={styles.scoresText}>🌎 Top scores globally 🌍</p>
+      <p className={styles.scoresText}>
+        <span className={styles.emoji} role='img' aria-label='world-America-icon'>
+          🌎
+        </span>
+        Top scores globally
+        <span className={styles.emoji} role='img' aria-label='world-Europe-icon'>
+          🌍
+        </span>
+      </p>
       <div className={styles.topScores}>
         {groupedTopScores.map(({ difficulty, scores }) => (
           <div key={difficulty} className={styles.difficulty}>

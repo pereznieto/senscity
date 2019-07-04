@@ -14,9 +14,13 @@
 
   .topScores {
     display: flex;
-    max-height: 500px;
+    max-height: 370px;
     overflow-x: hidden;
     overflow-y: scroll;
+  }
+
+  .emoji {
+    margin: 0 10px;
   }
 
   .difficulty {
