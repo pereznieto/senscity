@@ -43,7 +43,7 @@ const TopScores = () => {
             <h3 className={styles.difficultyTitle}>{_.capitalize(difficulty)}</h3>
             {scores.map(({ name, score }, id) => (
               <div
-                key={`${name}-${score}`}
+                key={`${name}-${score}-${id}`}
                 className={cx(styles.scoreItem, { [styles.topDawg]: id === 0 })}
               >
                 <span className={styles.name}>

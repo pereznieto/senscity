@@ -4,13 +4,13 @@
 
 ### Pending stuff
 
-- 🔐 Make API calls safer (CORS) and better (lambda code)
-- 🐛 Sometimes top scores clear when new score is saved
 - 📜 Instructions
 - 🎷 Game music
 - 📱 Mobile responsiveness
 - 💻 Support screen resizing (map dimensions recalculation)
+- 🔐 Make API calls safer (CORS) and better (lambda code)
 - ~~🌍 Favicon~~
+- ~~🐛 Sometimes top scores clear when new score is saved~~
 - ~~📈 Improve scoring (right now almost impossible to get over 85)~~
 - ~~📍 Better turn result screen (display distance and time)~~
 - ~~🗺 Summary and detailed results at the end of game (display all attempts on map)~~

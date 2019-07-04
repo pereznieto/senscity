@@ -8,8 +8,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "predeploy": "npm run build",
-    "deploy": "aws s3 sync build/ s3://senscity --acl public-read",
-    "deploy2s3": "npm run build && npm run deploy"
+    "deploy": "aws s3 sync build/ s3://senscity --acl public-read"
   },
   "dependencies": {
     "@material-ui/core": "^4.0.2",

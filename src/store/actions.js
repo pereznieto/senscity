@@ -89,8 +89,9 @@ export const endTurn = (store, clickedCoordinate) => {
 export const saveScore = (store, name) => {
   const { score, mode, playedCities } = store.state;
   const newScore = { name, score, mode, playedCities };
-  saveScoreToDatabase(newScore);
-  store.setState({ isScoreSaved: true, scores: [...store.state.scores, newScore] });
+  saveScoreToDatabase(newScore).then(() => {
+    store.setState({ scores: [], isScoreSaved: true });
+  });
 };
 
 export const getScores = store => {

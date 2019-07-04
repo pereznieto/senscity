@@ -1,11 +1,11 @@
 import Axios from 'axios';
 
-export const saveScoreToDatabase = score => {
-  Axios.post(
+export async function saveScoreToDatabase(score) {
+  return await Axios.post(
     'https://iye014hoi0.execute-api.eu-west-2.amazonaws.com/default/saveScore',
     score
   );
-};
+}
 
 export async function getScoresFromDatabase() {
   const response = await Axios.get(
