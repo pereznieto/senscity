@@ -1,4 +1,4 @@
-import CircularProgress from '@material-ui/core/CircularProgress';
+import { CircularProgress, Paper } from '@material-ui/core';
 import cx from 'classnames';
 import _ from 'lodash';
 import React from 'react';
@@ -36,8 +36,8 @@ const TopScores = () => {
   };
 
   return (
-    <div className={styles.scores}>
-      <p className={styles.scoresText}>Top scores globally</p>
+    <Paper className={styles.scores}>
+      <p className={styles.scoresText}>🌎 Top scores globally 🌍</p>
       <div className={styles.topScores}>
         {groupedTopScores.map(({ difficulty, scores }) => (
           <div key={difficulty} className={styles.difficulty}>
@@ -57,7 +57,7 @@ const TopScores = () => {
           </div>
         ))}
       </div>
-    </div>
+    </Paper>
   );
 };
 
