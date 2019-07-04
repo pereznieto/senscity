@@ -1,41 +1,32 @@
-export const getDistanceBetweenClickAndCity = (
-  { x, y },
-  { width, height },
-  { latitude, longitude }
-) =>
-  getDistanceBetweenTwoCoordinates(
-    latitude,
-    longitude,
-    yToLatitude(height, y),
-    xToLongitude(width, x)
-  );
-
 export const getRealCoordinates = (mapSize, currentCity) => ({
   x: longitudeToX(mapSize.width, currentCity.longitude),
   y: latitudeToY(mapSize.height, currentCity.latitude),
 });
 
-const yToLatitude = (height, y) => {
+export const yToLatitude = (height, y) => {
   const mapEquator = height * (9 / 15);
   return ((mapEquator - y) * 90) / mapEquator;
 };
 
-const xToLongitude = (width, x) => {
+export const xToLongitude = (width, x) => {
   const mapGreenwich = width / 2;
   return ((x - mapGreenwich) * 180) / mapGreenwich;
 };
 
-const latitudeToY = (height, latitude) => {
+export const latitudeToY = (height, latitude) => {
   const mapEquator = height * (9 / 15);
   return parseInt(mapEquator - (latitude * mapEquator) / 90);
 };
 
-const longitudeToX = (width, longitude) => {
+export const longitudeToX = (width, longitude) => {
   const mapGreenwich = width / 2;
   return parseInt((longitude * mapGreenwich) / 180 + mapGreenwich);
 };
 
-const getDistanceBetweenTwoCoordinates = (lat1, lon1, lat2, lon2) => {
+export const getDistanceBetweenTwoCoordinates = (
+  { latitude: lat1, longitude: lon1 },
+  { latitude: lat2, longitude: lon2 }
+) => {
   const earthDiameter = 12742;
   const rad = 0.017453292519943295;
   const cos = Math.cos;

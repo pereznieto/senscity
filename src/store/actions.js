@@ -1,6 +1,10 @@
 import { initialState } from '.';
 import { citiesPerGame, getCitiesToPlay, getDisplayName } from '../utils/city';
-import { getDistanceBetweenClickAndCity, getRealCoordinates } from '../utils/distance';
+import {
+  getDistanceBetweenTwoCoordinates,
+  xToLongitude,
+  yToLatitude,
+} from '../utils/distance';
 import { calculateTurnScore } from '../utils/score';
 import { getScoresFromDatabase, saveScoreToDatabase } from '../utils/storage';
 
@@ -43,23 +47,22 @@ export const endTurn = (store, clickedCoordinate) => {
     mode,
     round,
   } = store.state;
-  const distance = clickedCoordinate
-    ? getDistanceBetweenClickAndCity(clickedCoordinate, mapSize, currentCity)
-    : null;
-  const turnScore = calculateTurnScore(distance, timeLeft);
   const clicked = clickedCoordinate
     ? {
-        x: clickedCoordinate.x,
-        y: clickedCoordinate.y,
+        latitude: yToLatitude(mapSize.height, clickedCoordinate.y),
+        longitude: xToLongitude(mapSize.width, clickedCoordinate.x),
       }
     : null;
+  const distance = clickedCoordinate
+    ? getDistanceBetweenTwoCoordinates(clicked, currentCity)
+    : null;
+  const turnScore = calculateTurnScore(distance, timeLeft);
   const newPlayedCities = [
     ...playedCities,
     {
       ...currentCity,
       clicked,
       distance,
-      real: getRealCoordinates(mapSize, currentCity),
       score: turnScore,
       timeLeft,
       round,
@@ -70,16 +73,18 @@ export const endTurn = (store, clickedCoordinate) => {
 
   store.setState({
     isRunning: false,
-    clickedCoordinate,
     playedCities: newPlayedCities,
     currentCity: citiesToPlay[newPlayedCities.length],
     gameOver,
     distance,
     score: score + turnScore,
     pause: {
-      city: getDisplayName(currentCity, mode),
+      city: {
+        name: getDisplayName(currentCity, mode),
+        latitude: currentCity.latitude,
+        longitude: currentCity.longitude,
+      },
       score: turnScore,
-      real: getRealCoordinates(mapSize, currentCity),
       clicked,
       timeLeft,
     },

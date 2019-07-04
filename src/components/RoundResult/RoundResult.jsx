@@ -1,14 +1,19 @@
+import Tooltip from '@material-ui/core/Tooltip';
 import React from 'react';
 import useGlobal from '../../store';
-import { getLineBetweenTwoPoints } from '../../utils/distance';
+import { getLineBetweenTwoPoints, latitudeToY, longitudeToX } from '../../utils/distance';
 import styles from './RoundResult.module.scss';
-import Tooltip from '@material-ui/core/Tooltip';
 
 const defaultOffsetRatio = 0.05;
 
-const getStyle = coordinates => ({
-  top: `${coordinates.y - 4}px`,
-  left: `${coordinates.x - 4}px`,
+const getScreenCoordinates = ({ height, width }, { latitude, longitude }) => ({
+  x: longitudeToX(width, longitude),
+  y: latitudeToY(height, latitude),
+});
+
+const getStyle = ({ x, y }) => ({
+  top: `${y - 4}px`,
+  left: `${x - 4}px`,
 });
 
 const getStylePositionForScorePopup = (a, b) => {
@@ -23,30 +28,44 @@ const getStylePositionForScorePopup = (a, b) => {
   };
 };
 
-const RoundResult = ({ city, city: { real, clicked }, score }) => {
-  const [{ gameOver }, { updateMissedSummary }] = useGlobal();
+const RoundResult = ({ city, city: { latitude, longitude, clicked }, score }) => {
+  const [{ gameOver, mapSize }, { updateMissedSummary }] = useGlobal();
 
   const updateResultSummary = () => {
     city.country && updateMissedSummary(city);
   };
 
+  const realScreenCoordinates = getScreenCoordinates(mapSize, { latitude, longitude });
+  const clickedScreenCoordinates = clicked
+    ? getScreenCoordinates(mapSize, clicked)
+    : null;
+
   return (
     <div className={styles.roundResult} onClick={updateResultSummary}>
       <Tooltip title={city.name} placement='left'>
-        <div className={styles.real} style={getStyle(real)} />
+        <div className={styles.real} style={getStyle(realScreenCoordinates)} />
       </Tooltip>
-      {clicked && (
+      {clickedScreenCoordinates && (
         <React.Fragment>
           {!gameOver && (
             <div
               className={styles.roundScore}
-              style={getStylePositionForScorePopup(real, clicked)}
+              style={getStylePositionForScorePopup(
+                realScreenCoordinates,
+                clickedScreenCoordinates
+              )}
             >
               {score}
             </div>
           )}
-          <div className={styles.clicked} style={getStyle(clicked)} />
-          <div className={styles.line} style={getLineBetweenTwoPoints(real, clicked)} />
+          <div className={styles.clicked} style={getStyle(clickedScreenCoordinates)} />
+          <div
+            className={styles.line}
+            style={getLineBetweenTwoPoints(
+              realScreenCoordinates,
+              clickedScreenCoordinates
+            )}
+          />
         </React.Fragment>
       )}
     </div>

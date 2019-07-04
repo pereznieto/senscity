@@ -3,10 +3,6 @@ import * as actions from './actions';
 import useGlobalHook from './GlobalHook';
 
 export const initialState = {
-  clickedCoordinate: {
-    x: null,
-    y: null,
-  },
   round: 1,
   currentCity: null,
   playedCities: [],

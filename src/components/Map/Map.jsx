@@ -40,7 +40,12 @@ const Map = () => {
       {pause && !showRoundsResult && (
         <div className={styles.pause}>
           <RoundResult
-            city={{ real: pause.real, clicked: pause.clicked, name: pause.city }}
+            city={{
+              latitude: pause.city.latitude,
+              longitude: pause.city.longitude,
+              clicked: pause.clicked,
+              name: pause.city.name,
+            }}
             score={pause.score}
           />
         </div>

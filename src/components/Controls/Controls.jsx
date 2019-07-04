@@ -25,7 +25,9 @@ const Controls = () => {
 
   const hasMissedSummary = !_.isEmpty(missedSummary);
   const getCityToDisplay = () =>
-    hasMissedSummary ? `${missedSummary.name}, ${missedSummary.country}` : pause.city;
+    hasMissedSummary
+      ? `${missedSummary.name}, ${missedSummary.country}`
+      : pause.city.name;
   const distanceToDisplay = hasMissedSummary ? missedSummary.distance : distance;
   const roundToDisplay = hasMissedSummary ? missedSummary.round : round;
   const statsToDisplay = hasMissedSummary && (
