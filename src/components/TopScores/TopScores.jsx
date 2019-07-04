@@ -14,11 +14,12 @@ const TopScores = () => {
     return <CircularProgress className={styles.loading} />;
   }
 
-  const groupedScores = difficulties.map(difficulty => ({
+  const groupedTopScores = difficulties.map(difficulty => ({
     difficulty,
     scores: scores
       .filter(score => score.mode === difficulty)
-      .sort((a, b) => (a.score > b.score ? -1 : 1)),
+      .sort((a, b) => (a.score > b.score ? -1 : 1))
+      .slice(0, 10),
   }));
 
   const getTrophy = id => {
@@ -38,7 +39,7 @@ const TopScores = () => {
     <div className={styles.scores}>
       <p className={styles.scoresText}>Top scores globally</p>
       <div className={styles.topScores}>
-        {groupedScores.map(({ difficulty, scores }) => (
+        {groupedTopScores.map(({ difficulty, scores }) => (
           <div key={difficulty} className={styles.difficulty}>
             <h3 className={styles.difficultyTitle}>{_.capitalize(difficulty)}</h3>
             {scores.map(({ name, score }, id) => (
