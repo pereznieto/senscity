@@ -9,6 +9,7 @@
 - 📱 Mobile responsiveness
 - 💻 Support screen resizing (map dimensions recalculation)
 - 🔐 Make API calls safer (CORS) and better (lambda code)
+- 📨 Add post round comments to 'spice things up' a little
 - ~~🌍 Favicon~~
 - ~~🐛 Sometimes top scores clear when new score is saved~~
 - ~~📈 Improve scoring (right now almost impossible to get over 85)~~
