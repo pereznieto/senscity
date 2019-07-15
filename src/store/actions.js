@@ -33,7 +33,9 @@ export const startGame = (store, mode) => newGame(store, mode, []);
 export const restartGame = (store, mode) => newGame(store, mode, initialState);
 
 export const nextCity = store => {
-  store.setState({ pause: null, isRunning: true, round: store.state.round + 1 });
+  if (store.state.pause && store.state.round !== citiesPerGame) {
+    store.setState({ pause: null, isRunning: true, round: store.state.round + 1 });
+  }
 };
 
 export const endTurn = (store, clickedCoordinate) => {

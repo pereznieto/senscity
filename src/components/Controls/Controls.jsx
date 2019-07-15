@@ -2,7 +2,7 @@ import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import cx from 'classnames';
 import _ from 'lodash';
-import React from 'react';
+import React, { useEffect } from 'react';
 import useGlobal from '../../store';
 import { citiesPerGame, getDisplayName } from '../../utils/city';
 import styles from './Controls.module.scss';
@@ -22,6 +22,23 @@ const Controls = () => {
     },
     { nextCity },
   ] = useGlobal();
+
+  const SPACE_KEY = 32;
+
+  const handleKeyUp = event => {
+    if (event.keyCode === SPACE_KEY) {
+      nextCity();
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener('keyup', handleKeyUp);
+
+    return () => {
+      window.removeEventListener('keyup', handleKeyUp);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const hasMissedSummary = !_.isEmpty(missedSummary);
   const getCityToDisplay = () =>
